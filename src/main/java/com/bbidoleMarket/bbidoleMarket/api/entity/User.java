@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,16 +27,24 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "name")
+    @NotBlank
+    @Size(min = 2, max = 50)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email")
+    @NotBlank
+    @Email
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password")
+    @NotBlank
+    @Size(min = 8, max = 100)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "nickname")
+    @NotBlank
+    @Size(min = 2, max = 30)
+    @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
 
     @Column(name = "total_rating")
@@ -42,7 +53,7 @@ public class User {
     @Column(name = "profile_image")
     private String profileImage;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
 //    @OneToMany(mappedBy = "user")
@@ -86,4 +97,3 @@ public class User {
         this.totalRating = totalRating;
     }
 }
-
