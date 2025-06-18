@@ -32,7 +32,6 @@ public class ChatMessage {
 
     @Column(name = "send_at")
     private LocalDateTime sendAt;
-//    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id")

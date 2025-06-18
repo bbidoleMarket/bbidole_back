@@ -30,10 +30,6 @@ public class ChatRoom {
     @Column(name = "is_completed")
     private Boolean isCompleted;
 
-//    @Column(name = "chat_list_status")
-//    @Enumerated(EnumType.STRING)
-//    private ChatRoomStatus status; // [ORDINAL, DONE]`
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -53,7 +49,6 @@ public class ChatRoom {
     public static ChatRoom createChatRoom(Post post, User buyer, User seller) {
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.isCompleted = false;
-//        chatRoom.status = ChatRoomStatus.ORDINAL;
         chatRoom.post = post;
         chatRoom.buyer = buyer;
         chatRoom.seller = seller;
@@ -67,12 +62,10 @@ public class ChatRoom {
 
     public void completeChat() {
         isCompleted = true;
-//        chatRoom.status = ChatRoomStatus.DONE;
     }
 
     public void restartChat() {
         isCompleted = false;
-//        chatRoom.status = ChatRoomStatus.ORDINAL;
     }
 
 }

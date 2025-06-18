@@ -35,16 +35,15 @@ public class Post {
     @Column(name = "price")
     private Integer price;
 
+    @Column(name = "post_image_url")
+    private String imageUrl;
+
     @Lob
     @Column(name = "description")
     private String description;
 
     @Column(name = "is_sold")
     private Boolean isSold;
-
-//    @Column(name = "post_status")
-//    @Enumerated(value = EnumType.STRING)
-//    private PostStatus status; // [ORDINAL, SOLD, TEMP]
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -54,13 +53,14 @@ public class Post {
     private User user;
 
     @Builder
-    public static Post createPost(String title, int price, String description, User user) {
+    public static Post createPost
+        (String title, int price, String imageUrl, String description, User user) {
         Post post = new Post();
         post.title = title;
         post.price = price;
+        post.imageUrl = imageUrl;
         post.description = description;
         post.isSold = false;
-//        post.status = PostStatus.ORDINAL;
         post.user = user;
         return post;
     }
@@ -78,11 +78,9 @@ public class Post {
 
     public void sold() {
         isSold = true;
-//        post.status = PostStatus.SOLD;
     }
 
     public void unSold() {
         isSold = false;
-//        post.status = PostStatus.ORDINAL;
     }
 }
