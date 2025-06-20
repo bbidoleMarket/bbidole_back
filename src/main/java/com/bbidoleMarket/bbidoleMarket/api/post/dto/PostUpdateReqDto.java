@@ -9,11 +9,12 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class PostDetailReqDto {
+public class PostUpdateReqDto {
 
     private long postId;
     private String title;
     private String description;
     private int price;
     private String imageUrl;
+    private long userId;
 }
