@@ -12,9 +12,10 @@ public enum SuccessStatus {
     /**
      * 200
      */
-    SEND_REGISTER_SUCCESS(HttpStatus.OK,"회원가입 성공"),
-    SEND_HEALTH_SUCCESS(HttpStatus.OK,"서버 상태 OK"),
+    SEND_REGISTER_SUCCESS(HttpStatus.OK, "회원가입 성공"),
+    SEND_HEALTH_SUCCESS(HttpStatus.OK, "서버 상태 OK"),
 
+    SEARCH_POST_SUCCESS(HttpStatus.OK, "게시물 조회 성공"),
 
     /**
      * 201
