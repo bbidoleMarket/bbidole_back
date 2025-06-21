@@ -28,9 +28,9 @@ public class MyPageService {
             User user = myPageRepository.findByEmail(myPageReqDto.getEmail())
                     .orElseThrow(()->new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
             //데이터 형식 검증 추가(비번,이메일)
-            //if(!myPageReqDto.getNickname().matches()) throw new BadRequestException(ErrorStatus.VALIDATION_EMAIL_FORMAT_EXCEPTION.getMessage());
-            //if(myPageReqDto.getPassword().length()<8 ||!myPageReqDto.getPassword().matches()) throw new BadRequestException("올바른 비밀번호 형식이 아닙니다.");
-            //if(myPageReqDto.getPasswordConfirm()!=myPageReqDto.getPassword() ) throw new BadRequestException("비밀번호가 일치하지 않습니다.");
+            if(!myPageReqDto.getNickname().matches("^.{2,30}$")) throw new BadRequestException(ErrorStatus.VALIDATION_EMAIL_FORMAT_EXCEPTION.getMessage());
+            if (!myPageReqDto.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$]).{8,15}$")) throw new BadRequestException("올바른 비밀번호 형식이 아닙니다.");
+            if(myPageReqDto.getPasswordConfirm()!=myPageReqDto.getPassword() ) throw new BadRequestException("비밀번호가 일치하지 않습니다.");
 
             user.updateNickname(myPageReqDto.getNickname());
             user.updatePassword(myPageReqDto.getPassword());
