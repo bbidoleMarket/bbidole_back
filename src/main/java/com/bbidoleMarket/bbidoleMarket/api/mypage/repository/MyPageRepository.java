@@ -9,5 +9,4 @@ import java.util.Optional;
 @Repository
 public interface MyPageRepository extends JpaRepository<User,Long> {
     Optional<User> findByEmail(String email);
-    Optional<User> findByProfileImage(String profileImage);
 }
