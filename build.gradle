@@ -34,8 +34,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // jwt
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.hibernate.validator:hibernate-validator'
+    // implementation 'org.springframework.boot:spring-boot-starter-security'
+    // implementation 'org.hibernate.validator:hibernate-validator'
 }
 
 tasks.named('test') {
