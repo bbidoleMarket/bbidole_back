@@ -22,7 +22,8 @@ public class MyPageService {
     private final MyPageRepository myPageRepository;
     public boolean info(String email) {
         try {
-            User user = myPageRepository.findByEmail(email).orElseThrow(NotFoundException::new);
+            User user = myPageRepository.findByEmail(email)
+                    .orElseThrow(()->new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
             return true;
         }
         catch (Exception ex) {
