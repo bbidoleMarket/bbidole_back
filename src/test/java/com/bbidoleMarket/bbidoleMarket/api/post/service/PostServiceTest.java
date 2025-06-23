@@ -5,6 +5,7 @@ import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSaveReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSimpleDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostUpdateReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.SigninDto;
+import com.bbidoleMarket.bbidoleMarket.common.TestUtils;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -27,10 +28,10 @@ class PostServiceTest {
     @Test
     public void 게시물_저장_및_조회_테스트() throws Exception {
         // given
-        SigninDto userDto = signinOne();
+        SigninDto userDto = TestUtils.signinOne();
         Long userId = userService.signin(userDto);
 
-        PostSaveReqDto postDto = createPostOne(userId);
+        PostSaveReqDto postDto = TestUtils.createPostOne(userId);
 
         // when
         Long savedId = postService.save(postDto);
@@ -47,10 +48,10 @@ class PostServiceTest {
     @Test
     public void 게시물_수정_테스트() throws Exception {
         // given
-        SigninDto userDto = signinOne();
+        SigninDto userDto = TestUtils.signinOne();
         Long userId = userService.signin(userDto);
 
-        PostSaveReqDto originPost = createPostOne(userId);
+        PostSaveReqDto originPost = TestUtils.createPostOne(userId);
         Long postId = postService.save(originPost);
 
         PostUpdateReqDto postUpdateReqDto = new PostUpdateReqDto();
@@ -78,11 +79,12 @@ class PostServiceTest {
     @Test
     public void 게시물_사용자_아이디_조회() throws Exception {
         // given
-        SigninDto userDto = signinOne();
+        SigninDto userDto = TestUtils.signinOne();
         Long userId = userService.signin(userDto);
 
         int postNum = 10;
-        List<PostSaveReqDto> savedPosts = new ArrayList<>(createPostMany(userId, postNum));
+        List<PostSaveReqDto> savedPosts = new ArrayList<>(
+            TestUtils.createPostMany(userId, postNum));
         for (PostSaveReqDto post : savedPosts) {
             postService.save(post);
         }
@@ -102,79 +104,6 @@ class PostServiceTest {
             Assertions.assertEquals(savedPosts.get(i).getPrice(), posts.get(i).getPrice());
             Assertions.assertEquals(savedPosts.get(i).getImageUrl(), posts.get(i).getImageUrl());
         }
-    }
-
-    private SigninDto signinOne() {
-        String email = "b@b.b";
-        String password = "bbb!";
-        String name = "bbb";
-
-        SigninDto signinDto = new SigninDto();
-        signinDto.setEmail(email);
-        signinDto.setPassword(password);
-        signinDto.setName(name);
-
-        return signinDto;
-    }
-
-    private List<SigninDto> signinMany(int count) {
-        List<SigninDto> signinDtos = new ArrayList<>();
-
-        if (count == 1) {
-            signinDtos.add(signinOne());
-            return signinDtos;
-        }
-
-        String email = "b@b.b";
-        String password = "bbb!";
-        String name = "bbb";
-
-        for (int i = 0; i < count; i++) {
-            SigninDto signinDto = new SigninDto();
-            signinDto.setEmail(email + i);
-            signinDto.setPassword(password + i);
-            signinDto.setName(name + i);
-
-            signinDtos.add(signinDto);
-        }
-        return signinDtos;
-    }
-
-    private PostSaveReqDto createPostOne(long userId) {
-        PostSaveReqDto postSaveReqDto = new PostSaveReqDto();
-        postSaveReqDto.setTitle("title");
-        postSaveReqDto.setPrice(1000);
-        postSaveReqDto.setImageUrl("imageUrl");
-        postSaveReqDto.setDescription("description");
-        postSaveReqDto.setUserId(userId);
-        return postSaveReqDto;
-    }
-
-    private List<PostSaveReqDto> createPostMany(long userId, int count) {
-        List<PostSaveReqDto> postSaveReqDtos = new ArrayList<>();
-
-        if (count == 1) {
-            postSaveReqDtos.add(createPostOne(userId));
-            return postSaveReqDtos;
-        }
-
-        String title = "title";
-        int price = 1000;
-        String imageUrl = "imageUrl";
-        String description = "description";
-
-        for (int i = 0; i < count; i++) {
-            PostSaveReqDto postSaveReqDto = new PostSaveReqDto();
-            postSaveReqDto.setTitle(title + i);
-            postSaveReqDto.setPrice(price + i);
-            postSaveReqDto.setImageUrl(imageUrl + i);
-            postSaveReqDto.setDescription(description + i);
-            postSaveReqDto.setUserId(userId);
-
-            postSaveReqDtos.add(postSaveReqDto);
-        }
-
-        return postSaveReqDtos;
     }
 
 }
