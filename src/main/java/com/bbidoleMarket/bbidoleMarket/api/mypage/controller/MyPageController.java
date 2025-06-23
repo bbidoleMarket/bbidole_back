@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,9 +20,14 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     //회원 정보 수정
+//    @PutMapping("/update")
+//    public ResponseEntity<Boolean> modifyMyPage(@RequestBody MyPageReqDto myPageReqDto) {
+//        return ResponseEntity.ok(myPageService.modifyMyPage(myPageReqDto));
+//    }
     @PutMapping("/update")
-    public ResponseEntity<Boolean> modifyMyPage(@RequestBody MyPageReqDto myPageReqDto) {
-        return ResponseEntity.ok(myPageService.modifyMyPage(myPageReqDto));
+    public ResponseEntity<ApiResponse<Void>> modifyMyPage(@RequestBody MyPageReqDto myPageReqDto) {
+        myPageService.modifyMyPage(myPageReqDto);
+        return ApiResponse.success_only(SuccessStatus.SEND_PROFILE_IMAGE_UPDATE_SUCCESS);
     }
     //프로필 사진 수정
 //    @PutMapping("/profile-image")
@@ -31,7 +37,8 @@ public class MyPageController {
 
 
     @PutMapping("/profile-image")
-    public ResponseEntity<ApiResponse<Void>> modifyProfileImage(@RequestBody MyPageReqDto myPageReqDto){
+    public ResponseEntity<ApiResponse<Void>> modifyProfileImage(@ModelAttribute MyPageReqDto myPageReqDto, @RequestParam MultipartFile image) {
+        myPageService.modifyProfileImage(myPageReqDto,image);
         return ApiResponse.success_only(SuccessStatus.SEND_USER_UPDATE_SUCCESS);
     }
 }
