@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
 @Slf4j
-@RequestMapping("/mypage")
+@RequestMapping("/api/mypage")
 public class MyPageController {
     private final MyPageService myPageService;
 
