@@ -5,6 +5,8 @@ import com.bbidoleMarket.bbidoleMarket.api.post.dto.SigninDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.service.UserService;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.SuccessStatus;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "", description = "")
-@RestController
 @Slf4j
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "", description = "")
+@Slf4j
 @RequestMapping("/api/post")
 @RequiredArgsConstructor
 @RestController
