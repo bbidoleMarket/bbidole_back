@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-//    private final PostRepository postRepository;
-//    private final ReviewRepository reviewRepository;
 
     // TODO 삭제
     public Long signin(SigninDto dto) {
