@@ -60,17 +60,15 @@ class PostServiceTest {
 
         postUpdateReqDto.setTitle("updatedTitle");
         postUpdateReqDto.setPrice(2000);
-        postUpdateReqDto.setImageUrl("updatedImageUrl");
         postUpdateReqDto.setDescription("updatedDescription");
 
         // when
-        postService.update(postUpdateReqDto);
+        postService.update(postUpdateReqDto, null); // TODO MOCK_MVC로 MultipartFile 테스트 해야함
 
         // then
         PostDetailResDto res = postService.findById(postUpdateReqDto.getPostId());
         Assertions.assertEquals(res.getTitle(), postUpdateReqDto.getTitle());
         Assertions.assertEquals(res.getPrice(), postUpdateReqDto.getPrice());
-        Assertions.assertEquals(res.getImageUrl(), postUpdateReqDto.getImageUrl());
         Assertions.assertEquals(res.getDescription(), postUpdateReqDto.getDescription());
         Assertions.assertEquals(res.getWriterId(), postUpdateReqDto.getUserId());
 
