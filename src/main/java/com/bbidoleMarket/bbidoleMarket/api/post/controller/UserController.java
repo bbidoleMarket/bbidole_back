@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "", description = "")
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -31,6 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "판매자의 상세정보를 호출")
     public ResponseEntity<ApiResponse<SellerDetailResDto>> getSeller(@PathVariable("id") Long id) {
         return ApiResponse
             .success(SuccessStatus.SEARCH_USER_SUCCESS, userService.findSellerById(id));
