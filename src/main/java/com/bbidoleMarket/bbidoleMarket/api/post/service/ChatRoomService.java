@@ -4,6 +4,7 @@ import com.bbidoleMarket.bbidoleMarket.api.entity.ChatRoom;
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.ChatRoomReqDto;
+import com.bbidoleMarket.bbidoleMarket.api.post.dto.ChatRoomResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.ChatRoomRepository;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.PostRepository;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.UserRepository;
@@ -26,9 +27,18 @@ public class ChatRoomService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
+    public ChatRoomResDto findById(Long id) {
+        ChatRoom chatRoom = chatRoomRepository.findById(id).orElseThrow(NotFoundException::new);
+        ChatRoomResDto chatRoomResDto = new ChatRoomResDto();
+        chatRoomResDto.setProductId(chatRoom.getPost().getId());
+        chatRoomResDto.setBuyerId(chatRoom.getBuyer().getId());
+        chatRoomResDto.setSellerId(chatRoom.getSeller().getId());
+        return chatRoomResDto;
+    }
+
 
     public Long startChatRoom(ChatRoomReqDto dto) {
-        List<ChatRoom> chatRooms = chatRoomRepository.findAllByProductIdAndBuyerIdAndSellerIdAndIsCompleted(
+        List<ChatRoom> chatRooms = chatRoomRepository.findAllByPostIdAndBuyerIdAndSellerIdAndIsCompleted(
             dto.getProductId(), dto.getBuyerId(), dto.getSellerId(), false);
 
         if (chatRooms.size() > 1) {
