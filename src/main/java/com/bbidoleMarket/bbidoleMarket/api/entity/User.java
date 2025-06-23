@@ -56,10 +56,10 @@ public class User {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-//    @OneToMany(mappedBy = "user")
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Post> posts = new ArrayList<>();
 //
-//    @OneToMany(mappedBy = "reviewee")
+//    @OneToMany(mappedBy = "reviewee", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Review> reviews = new ArrayList<>();
 
     @Builder
