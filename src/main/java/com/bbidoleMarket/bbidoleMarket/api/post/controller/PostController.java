@@ -2,7 +2,6 @@ package com.bbidoleMarket.bbidoleMarket.api.post.controller;
 
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PageResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostDetailResDto;
-import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSaveReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSimpleDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostUpdateReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.service.PostService;
@@ -15,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +35,12 @@ public class PostController {
         return ApiResponse.success(SuccessStatus.SEARCH_POST_SUCCESS, postService.findById(id));
     }
 
-    // TODO 삭제
+    /*// TODO 삭제
     @PostMapping("/")
     public ResponseEntity<ApiResponse<String>> save(@RequestBody PostSaveReqDto dto) {
         postService.save(dto);
         return ApiResponse.success(SuccessStatus.SEARCH_POST_SUCCESS, "게시물 저장에 성공했습니다.");
-    }
+    }*/
 
     @PutMapping("/")
     @Operation(summary = "게시물 수정 입니다.")
