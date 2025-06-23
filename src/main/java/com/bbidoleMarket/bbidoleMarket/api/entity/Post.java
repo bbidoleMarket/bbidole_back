@@ -70,9 +70,10 @@ public class Post {
         createdAt = LocalDateTime.now();
     }
 
-    public void updatePost(String title, int price, String description) {
+    public void updatePost(String title, int price, String description, String imageUrl) {
         this.title = title;
         this.price = price;
+        this.imageUrl = imageUrl;
         this.description = description;
     }
 
