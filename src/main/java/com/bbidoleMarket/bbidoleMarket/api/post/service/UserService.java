@@ -12,28 +12,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
 
     // TODO 삭제
+    @Transactional
     public Long signin(SigninDto dto) {
         User user = dto.asUser();
         return userRepository.save(user).getId();
     }
 
-    @Transactional(readOnly = true)
     public User findById(Long id) {
         return userRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("해당 id를 가진 사용자를 찾지 못했습니다."));
+            .orElseThrow(() -> new NotFoundException("해당 id를 가진 사용자를 찾을 수 없습니다."));
     }
 
-    @Transactional(readOnly = true)
     public SellerDetailResDto findSellerById(Long id) {
         User seller = userRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("해당 id를 가진 사용자를 찾지 못했습니다."));
+            .orElseThrow(() -> new NotFoundException("해당 id를 가진 사용자를 찾을 수 없습니다."));
         SellerDetailResDto sellerDetailResDto = new SellerDetailResDto();
         sellerDetailResDto.setUserId(id);
         sellerDetailResDto.setNickname(seller.getNickname());

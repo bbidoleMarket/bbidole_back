@@ -21,10 +21,9 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     public PageResDto<ReviewDto> getReviewWithSeller(Long id, int page, int size) {
-        // TODO page, size에 대한 검증 필요
         Pageable pageable = PageRequest.of(page, size);
         Page<Review> reviewPage = reviewRepository.findByRevieweeId(id, pageable);
-        Page<ReviewDto> reviewDtoPage = reviewPage.map(ReviewDto::fromReview);
+        Page<ReviewResDto> reviewDtoPage = reviewPage.map(ReviewResDto::fromReview);
         return new PageResDto<>(reviewDtoPage);
     }
 }
