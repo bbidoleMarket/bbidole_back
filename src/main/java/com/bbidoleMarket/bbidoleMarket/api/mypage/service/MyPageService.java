@@ -54,8 +54,8 @@ public class MyPageService {
         }
     }
     //프로필 사진 수정
-    public boolean modifyProfileImage(MyPageReqDto myPageReqDto){
-        try{
+    public void modifyProfileImage(MyPageReqDto myPageReqDto){
+
             //유효성 검증
             myPageReqDto.validateUserProfileImage();
             String email = myPageReqDto.getEmail();
@@ -67,11 +67,6 @@ public class MyPageService {
             //유저의 프로필 이미지 업데이트
             user.updateProfileImage(profileImage);
 
-            return true;
-        } catch (Exception e) {
-            log.error("프로필 사진 수정 실패: {}",e.getMessage());
-            return false;
-        }
 
     }
 }

@@ -24,8 +24,14 @@ public class MyPageController {
         return ResponseEntity.ok(myPageService.modifyMyPage(myPageReqDto));
     }
     //프로필 사진 수정
+//    @PutMapping("/profile-image")
+//    public ResponseEntity<Boolean> modifyProfileImage(@RequestBody MyPageReqDto myPageReqDto){
+//        return ResponseEntity.ok(myPageService.modifyProfileImage(myPageReqDto));
+//    }
+
+
     @PutMapping("/profile-image")
-    public ResponseEntity<Boolean> modifyProfileImage(@RequestBody MyPageReqDto myPageReqDto){
-        return ResponseEntity.ok(myPageService.modifyProfileImage(myPageReqDto));
+    public ResponseEntity<ApiResponse<Void>> modifyProfileImage(@RequestBody MyPageReqDto myPageReqDto){
+        return ApiResponse.success_only(SuccessStatus.SEND_USER_UPDATE_SUCCESS);
     }
 }

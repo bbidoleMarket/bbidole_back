@@ -28,7 +28,7 @@ public class PurchaseListService {
     private final ChatListRepository chatListRepository;
 
 
-    //구매 목록 조회
+    //구매 목록 조회 <- 최신순인가..?
 //    public List<PurchaseListResDto> getPurchaseList(Long userId) {
 //    //chatRoom 테이블에서 buy_id == user_id, is_completed = true일 때
 //        List<ChatRoom> chats = chatListRepository.findByBuyerIdAndIsCompleted(userId,true);
@@ -49,4 +49,6 @@ public class PurchaseListService {
     public List<PurchaseListResDto> getPurchaseList(Long userId){
         return purchaseListDao.findPurchaseListByBuyerId(userId);
     }
+
+    //페이지 네이션
 }

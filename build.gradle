@@ -37,6 +37,9 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    //GCP
+    implementation 'com.google.cloud:google-cloud-storage:2.53.0'
+
     // jwt
     // implementation 'org.springframework.boot:spring-boot-starter-security'
     // implementation 'org.hibernate.validator:hibernate-validator'
