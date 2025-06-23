@@ -44,7 +44,6 @@ public class PostService {
         }
 
         post.updatePost(dto.getTitle(), dto.getPrice(), dto.getDescription(), dto.getImageUrl());
-//        postRepository.save(post);    // post는 이미 영속성 관리 대상이므로 자동 update됨
     }
 
     public Long save(PostSaveReqDto dto) {
@@ -70,7 +69,6 @@ public class PostService {
     }
 
     public PageResDto<PostSimpleDto> findByUserId(Long userId, int page, int size) {
-        // TODO page, size에 대한 검증이 필요할까?
 
         Pageable pageable = PageRequest.of(page, size);
 
