@@ -11,6 +11,7 @@ import com.bbidoleMarket.bbidoleMarket.common.reponse.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +46,8 @@ public class PostController {
 
     @PutMapping("/")
     @Operation(summary = "게시물 수정 입니다.")
-    public ResponseEntity<ApiResponse<Void>> update(@RequestBody PostUpdateReqDto dto) {
+    public ResponseEntity<ApiResponse<Void>> update(
+        @RequestBody PostUpdateReqDto dto) { // TODO MultiPart로 변경 필요
         postService.update(dto);
         return ApiResponse.success_only(SuccessStatus.UPDATE_POST_SUCCESS);
     }

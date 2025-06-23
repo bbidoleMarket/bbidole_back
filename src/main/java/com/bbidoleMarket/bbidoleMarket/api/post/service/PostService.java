@@ -13,6 +13,7 @@ import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.UnauthorizedException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class PostService {
 
     private final PostRepository postRepository;
@@ -46,6 +48,7 @@ public class PostService {
         post.updatePost(dto.getTitle(), dto.getPrice(), dto.getDescription(), dto.getImageUrl());
     }
 
+    // TODO 삭제
     public Long save(PostSaveReqDto dto) {
         User writer = userRepository.findById(dto.getUserId())
             .orElseThrow(() -> new NotFoundException("게시물을 작성하려면 회원가입/로그인이 필요합니다."));
@@ -55,6 +58,7 @@ public class PostService {
         return postRepository.save(post).getId();
     }
 
+    @Transactional(readOnly = true)
     public List<PostSimpleDto> findByUserId(Long userId) {
         List<Post> posts = postRepository.findByUserId(userId);
         return posts.stream().map(post -> {
@@ -68,6 +72,7 @@ public class PostService {
         }).toList();
     }
 
+    // TODO User Entity의 List<Post> 찾는거하고 Post Entity에서 찾는거 중에 어떤게 빠른지 검증 필요
     public PageResDto<PostSimpleDto> findByUserId(Long userId, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
