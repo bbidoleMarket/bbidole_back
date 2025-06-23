@@ -17,6 +17,7 @@ public enum ErrorStatus {
     VALIDATION_EMAIL_FORMAT_EXCEPTION(HttpStatus.BAD_REQUEST, "올바른 이메일 형식이 아닙니다."),
     WRONG_PASSWORD_EXCEPTION(HttpStatus.BAD_REQUEST, "아이디 또는 비밀번호가 일치하지 않습니다."),
     ALREADY_REGISTER_NICKNAME_EXCEPTION(HttpStatus.BAD_REQUEST, "이미 등록된 닉네임 입니다."),
+    IMAGE_MISSING_EXCEPTION(HttpStatus.BAD_REQUEST, "이미지 파일이 없습니다"),
 
     /**
      * 401 UNAUTHORIZED

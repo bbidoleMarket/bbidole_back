@@ -2,6 +2,7 @@ package com.bbidoleMarket.bbidoleMarket.api.mypage.controller;
 
 import com.bbidoleMarket.bbidoleMarket.api.mypage.dto.PurchaseListResDto;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.service.PurchaseListService;
+import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,18 @@ import java.util.List;
 public class PurchaseListController {
     private final PurchaseListService purchaseListService;
 
+    //구매 목록
+//    @GetMapping("/me/purchased-post/{id}") //토큰 검증 추가 시 id제거
+//    public ResponseEntity<List<PurchaseListResDto>> getPurchaseList(@PathVariable("id") Long userId){ //@AuthenticationPrincipal UserDetailsImpl user 변경
+//        //토큰에서 로그인한 사용자의 id 추출 추가 예정
+//
+//        return ResponseEntity.ok(purchaseListService.getPurchaseList(userId));
+//    }
     @GetMapping("/me/purchased-post/{id}") //토큰 검증 추가 시 id제거
-    public ResponseEntity<List<PurchaseListResDto>> getPurchaseList(@PathVariable("id") Long userId){ //@AuthenticationPrincipal UserDetailsImpl user 변경
+    public <T> ResponseEntity<ApiResponse<T>> getPurchaseList(@PathVariable("id") Long userId){ //@AuthenticationPrincipal UserDetailsImpl user 변경
         //토큰에서 로그인한 사용자의 id 추출 추가 예정
 
-        return ResponseEntity.ok(purchaseListService.getPurchaseList(userId));
+        purchaseListService.getPurchaseList(userId);
+        return ApiResponse.success()
     }
 }

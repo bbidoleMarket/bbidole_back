@@ -15,6 +15,7 @@ public enum SuccessStatus {
     SEND_REGISTER_SUCCESS(HttpStatus.OK,"회원가입 성공"),
     SEND_HEALTH_SUCCESS(HttpStatus.OK,"서버 상태 OK"),
     SEND_USER_UPDATE_SUCCESS(HttpStatus.OK,"회원 정보 수정 성공"),
+    SEND_PROFILE_IMAGE_UPDATE_SUCCESS(HttpStatus.OK,"프로필 사진 변경 성공"),
 
     /**
      * 201
