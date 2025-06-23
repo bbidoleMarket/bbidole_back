@@ -8,9 +8,15 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseListResDto {
-    private Long postId;
+//    private Long postId;
     private String title;
     private int price;
     private String imageUrl;
     private boolean isSold;
+
+    public PurchaseListResDto(String title, int price, String imageUrl){
+        this.title = title;
+        this.price = price;
+        this.imageUrl = imageUrl;
+    }
 }
