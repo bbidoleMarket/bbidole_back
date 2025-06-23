@@ -19,6 +19,7 @@ public enum SuccessStatus {
     UPDATE_POST_SUCCESS(HttpStatus.OK, "게시물 수정 성공"),
     SEARCH_USER_SUCCESS(HttpStatus.OK, "사용자 조회 성공"),
     SEARCH_REVIEW_SUCCESS(HttpStatus.OK, "리뷰 조회 성공"),
+    SEARCH_CHAT_ROOM_SUCCESS(HttpStatus.OK, "채팅방 조회/생성 성공"),
 
     /**
      * 201
