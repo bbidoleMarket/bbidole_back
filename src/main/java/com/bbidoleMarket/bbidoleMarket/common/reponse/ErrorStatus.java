@@ -31,11 +31,13 @@ public enum ErrorStatus {
     NOT_LOGIN_EXCEPTION(HttpStatus.NOT_FOUND, "로그인이 필요합니다."),
     USER_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 사용자를 찾을 수 없습니다."),
     EMAIL_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 이메일을 찾을 수 없습니다."),
+    POST_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 게시물을 찾을 수 없습니다."),
 
     /**
      * 500 SERVER_ERROR
      */
     FAIL_UPLOAD_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 실패하였습니다."),
+    DUPLICATE_CHAT_ROOM_CREATE_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "중복된 채팅방이 생성되었습니다."),
 
     ;
 
