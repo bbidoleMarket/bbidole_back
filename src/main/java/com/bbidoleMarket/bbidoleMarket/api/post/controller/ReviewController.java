@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "", description = "")
+@Slf4j
 @RestController
 @RequestMapping("/api/review")
 @RequiredArgsConstructor
@@ -25,8 +26,8 @@ public class ReviewController {
     @Operation(summary = "특정 사용자의 리뷰를 조회")
     public ResponseEntity<ApiResponse<PageResDto<ReviewResDto>>> getReviewWithSeller(
         @PathVariable Long userId,
-        @RequestParam int page,
-        @RequestParam int size
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
     ) {
         return ApiResponse
             .success(SuccessStatus.SEARCH_REVIEW_SUCCESS,
