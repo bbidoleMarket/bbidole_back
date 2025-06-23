@@ -56,8 +56,8 @@ public class PostController {
     @Operation(summary = "판매자의 판매중인 게시물의 조회입니다.")
     public ResponseEntity<ApiResponse<PageResDto<PostSimpleDto>>> findAllBySellerId(
         @PathVariable Long id,
-        @RequestParam int page,
-        @RequestParam int size
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
     ) {
         return ApiResponse
             .success(SuccessStatus.SEARCH_POST_SUCCESS, postService.findByUserId(id, page, size));
