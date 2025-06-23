@@ -26,8 +26,6 @@ public class PostUpdateReqDto {
     @NotNull
     private int price;
 
-    private String imageUrl; // TODO MultiPart로 변경
-
     @Positive
     @NotNull
     private long userId;
