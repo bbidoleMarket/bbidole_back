@@ -2,6 +2,8 @@ package com.bbidoleMarket.bbidoleMarket.api.post.service;
 
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
+import com.bbidoleMarket.bbidoleMarket.api.image.enums.ImageFolder;
+import com.bbidoleMarket.bbidoleMarket.api.image.service.UploadImageService;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PageResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostDetailResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSaveReqDto;
@@ -9,8 +11,11 @@ import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSimpleDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostUpdateReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.PostRepository;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.UserRepository;
+import com.bbidoleMarket.bbidoleMarket.common.exception.BaseException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.UnauthorizedException;
+import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +34,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final UploadImageService uploadImageService;
 
     @Transactional(readOnly = true)
     public PostDetailResDto findById(Long id) {
@@ -36,7 +43,7 @@ public class PostService {
         return PostDetailResDto.fromPost(post);
     }
 
-    public void update(PostUpdateReqDto dto) {
+    public void update(PostUpdateReqDto dto, MultipartFile image) {
         Post post = postRepository.findById(dto.getPostId())
             .orElseThrow(() -> new NotFoundException("해당 id로 게시글을 찾을 수 없습니다."));
 
