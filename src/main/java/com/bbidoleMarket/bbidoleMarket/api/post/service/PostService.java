@@ -1,0 +1,81 @@
+package com.bbidoleMarket.bbidoleMarket.api.post.service;
+
+import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
+import com.bbidoleMarket.bbidoleMarket.api.entity.User;
+import com.bbidoleMarket.bbidoleMarket.api.post.dto.PageResDto;
+import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostDetailResDto;
+import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSaveReqDto;
+import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSimpleDto;
+import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostUpdateReqDto;
+import com.bbidoleMarket.bbidoleMarket.api.post.repository.PostRepository;
+import com.bbidoleMarket.bbidoleMarket.api.post.repository.UserRepository;
+import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
+import com.bbidoleMarket.bbidoleMarket.common.exception.UnauthorizedException;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class PostService {
+
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
+
+    @Transactional(readOnly = true)
+    public PostDetailResDto findById(Long id) {
+        Post post = postRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("해당 id로 게시글을 찾을 수 없습니다."));
+        return PostDetailResDto.fromPost(post);
+    }
+
+    public void update(PostUpdateReqDto dto) {
+        Post post = postRepository.findById(dto.getPostId())
+            .orElseThrow(() -> new NotFoundException("해당 id로 게시글을 찾을 수 없습니다."));
+
+        // 작성자와 수정자가 동일한지 체크
+        if (post.getUser().getId() != dto.getUserId()) {
+            throw new UnauthorizedException("본인 것이 아닌 게시물의 수정은 불가능합니다.");
+        }
+
+        post.updatePost(dto.getTitle(), dto.getPrice(), dto.getDescription(), dto.getImageUrl());
+//        postRepository.save(post);    // post는 이미 영속성 관리 대상이므로 자동 update됨
+    }
+
+    public Long save(PostSaveReqDto dto) {
+        User writer = userRepository.findById(dto.getUserId())
+            .orElseThrow(() -> new NotFoundException("게시물을 작성하려면 회원가입/로그인이 필요합니다."));
+
+        Post post = Post.createPost(dto.getTitle(), dto.getPrice(), dto.getImageUrl(),
+            dto.getDescription(), writer);
+        return postRepository.save(post).getId();
+    }
+
+    public List<PostSimpleDto> findByUserId(Long userId) {
+        List<Post> posts = postRepository.findByUserId(userId);
+        return posts.stream().map(post -> {
+            PostSimpleDto postSimpleDto = new PostSimpleDto();
+            postSimpleDto.setId(post.getId());
+            postSimpleDto.setTitle(post.getTitle());
+            postSimpleDto.setPrice(post.getPrice());
+            postSimpleDto.setImageUrl(post.getImageUrl());
+
+            return postSimpleDto;
+        }).toList();
+    }
+
+    public PageResDto<PostSimpleDto> findByUserId(Long userId, int page, int size) {
+        // TODO page, size에 대한 검증이 필요할까?
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Post> postPage = postRepository.findByUserId(userId, pageable);
+        Page<PostSimpleDto> postSimpleDto = postPage.map(PostSimpleDto::fromPost);
+        return new PageResDto<>(postSimpleDto);
+    }
+}
