@@ -16,6 +16,9 @@ public enum SuccessStatus {
     SEND_HEALTH_SUCCESS(HttpStatus.OK, "서버 상태 OK"),
 
     SEARCH_POST_SUCCESS(HttpStatus.OK, "게시물 조회 성공"),
+    UPDATE_POST_SUCCESS(HttpStatus.OK, "게시물 수정 성공"),
+    SEARCH_USER_SUCCESS(HttpStatus.OK, "사용자 조회 성공"),
+    SEARCH_REVIEW_SUCCESS(HttpStatus.OK, "리뷰 조회 성공"),
 
     /**
      * 201
