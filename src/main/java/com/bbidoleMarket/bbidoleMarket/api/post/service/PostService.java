@@ -52,7 +52,20 @@ public class PostService {
             throw new UnauthorizedException("본인 것이 아닌 게시물의 수정은 불가능합니다.");
         }
 
-        post.updatePost(dto.getTitle(), dto.getPrice(), dto.getDescription(), dto.getImageUrl());
+        if (image.isEmpty()) {
+            post.updatePost(dto.getTitle(), dto.getPrice(), dto.getDescription());
+            return;
+        }
+
+        try {
+            String imageUrl = uploadImageService.uploadImage(image, ImageFolder.LIST);
+            post.updatePost(dto.getTitle(), dto.getPrice(), dto.getDescription(), imageUrl);
+        } catch (IOException e) {
+            throw new BaseException(
+                ErrorStatus.FAIL_UPLOAD_EXCEPTION.getHttpStatus(),
+                "이미지 업로드에 실패했습니다.(이미지 수정)"
+            );
+        }
     }
 
     // TODO 삭제
@@ -81,7 +94,6 @@ public class PostService {
 
     // TODO User Entity의 List<Post> 찾는거하고 Post Entity에서 찾는거 중에 어떤게 빠른지 검증 필요
     public PageResDto<PostSimpleDto> findByUserId(Long userId, int page, int size) {
-
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Post> postPage = postRepository.findByUserId(userId, pageable);
