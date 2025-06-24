@@ -16,12 +16,12 @@ public class PageResDto<T> {
     private final int totalPages; //전체 페이지 수
     private final boolean last; //마지막 페이지 여부
 
-//    public PageResDto(Page<T> page){
-//        this.content = page.getContent();
-//        this.pageNumber = page.getNumber();
-//        this.pageSize=page.getSize();
-//        this.totalElements=page.getTotalElements();
-//        this.totalPages=page.getTotalPages();
-//        this.last = page.isLast();
-//    }
+    public PageResDto(Page<T> page){
+        this.content = page.getContent();
+        this.pageNumber = page.getNumber();
+        this.pageSize=page.getSize();
+        this.totalElements=page.getTotalElements();
+        this.totalPages=page.getTotalPages();
+        this.last = page.isLast();
+    }
 }
