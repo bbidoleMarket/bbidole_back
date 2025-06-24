@@ -25,8 +25,10 @@ public class MyPageController {
 //        return ResponseEntity.ok(myPageService.modifyMyPage(myPageReqDto));
 //    }
     @PutMapping("/update")
-    public ResponseEntity<ApiResponse<Void>> modifyMyPage(@RequestBody MyPageReqDto myPageReqDto) {
-        myPageService.modifyMyPage(myPageReqDto);
+    public ResponseEntity<ApiResponse<Void>> modifyMyPage(@RequestBody MyPageReqDto myPageReqDto) {// @AuthenticationPrincipal UserDetailsImpl userDetails
+        // Long userId = userDetails.getUser().getId(); // 로그인한 사용자 ID
+        //myPageService.modifyMyPage(userId,myPageReqDto);
+        myPageService.modifyMyPage(myPageReqDto); //이메일로 검증 중 변경 예정
         return ApiResponse.success_only(SuccessStatus.SEND_PROFILE_IMAGE_UPDATE_SUCCESS);
     }
     //프로필 사진 수정
@@ -37,8 +39,11 @@ public class MyPageController {
 
 
     @PutMapping("/profile-image")
-    public ResponseEntity<ApiResponse<Void>> modifyProfileImage(@ModelAttribute MyPageReqDto myPageReqDto, @RequestParam MultipartFile image) {
-        myPageService.modifyProfileImage(myPageReqDto,image);
+    public ResponseEntity<ApiResponse<Void>> modifyProfileImage(@ModelAttribute MyPageReqDto myPageReqDto, @RequestParam MultipartFile image) {// @AuthenticationPrincipal UserDetailsImpl userDetails
+        //토큰 검증
+        //Long userId = userDetails.getUser().getId(); //토큰에서 id추출
+        //myPageService.modifyProfileImage(userId, image);
+        myPageService.modifyProfileImage(myPageReqDto,image); //이메일로 검증 중 변경예정
         return ApiResponse.success_only(SuccessStatus.SEND_USER_UPDATE_SUCCESS);
     }
 }
