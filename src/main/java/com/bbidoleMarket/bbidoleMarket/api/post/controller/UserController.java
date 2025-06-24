@@ -30,6 +30,15 @@ public class UserController {
         return ApiResponse.success_only(SuccessStatus.SEND_REGISTER_SUCCESS);
     }*/
 
+//    @GetMapping("/detail")
+//    @Operation(summary = "나의 상세정보를 요청")
+//    public ResponseEntity<ApiResponse<UserDetailResDto>> getUserDetail() {
+    // TODO JWT 합쳐진다음 다시 확인하기
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        Long userId = auth.getUserId(); // 주로 email 또는 userId
+//        return ApiResponse.success(SuccessStatus.SEARCH_USER_SUCCESS, userService.findUserById(userId));
+//    }
+
     @GetMapping("/detail/{id}")
     @Operation(summary = "판매자의 상세정보를 요청")
     public ResponseEntity<ApiResponse<UserDetailResDto>> getSeller(@PathVariable("id") Long id) {
