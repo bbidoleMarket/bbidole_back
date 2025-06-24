@@ -35,10 +35,17 @@ public class PurchaseListController {
 //        return ApiResponse.success_only(SuccessStatus.SEND_HEALTH_SUCCESS);
 //    }
 
+//    @GetMapping("/me/purchased-post/{id}") //토큰 검증 추가 시 id제거
+//    public ResponseEntity<PageResDto<PurchaseListResDto>> getPurchaseList(@PathVariable("id") Long userId, @RequestParam int page, @RequestParam int pageSize){ //@AuthenticationPrincipal UserDetailsImpl user 변경
+//        //토큰에서 로그인한 사용자의 id 추출 추가 예정
+//
+//        return ResponseEntity.ok(purchaseListService.getPurchaseList(userId, page, pageSize));
+//    }
     @GetMapping("/me/purchased-post/{id}") //토큰 검증 추가 시 id제거
-    public ResponseEntity<PageResDto<PurchaseListResDto>> getPurchaseList(@PathVariable("id") Long userId, @RequestParam int page, @RequestParam int pageSize){ //@AuthenticationPrincipal UserDetailsImpl user 변경
+    public ResponseEntity<ApiResponse<PageResDto<PurchaseListResDto>>> getPurchaseList(@PathVariable("id") Long userId, @RequestParam int page, @RequestParam int pageSize){ //@AuthenticationPrincipal UserDetailsImpl user 변경
         //토큰에서 로그인한 사용자의 id 추출 추가 예정
 
-        return ResponseEntity.ok(purchaseListService.getPurchaseList(userId, page, pageSize));
+        PageResDto<PurchaseListResDto> result = purchaseListService.getPurchaseList(userId, page, pageSize);
+        return ApiResponse.success(SuccessStatus.SEND_HEALTH_SUCCESS,result);
     }
 }
