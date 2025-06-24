@@ -4,6 +4,7 @@ import com.bbidoleMarket.bbidoleMarket.api.post.dto.ChatRoomReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.service.ChatRoomService;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.SuccessStatus;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class ChatRoomController {
     private final ChatRoomService chatRoomService;
 
     @PostMapping("/")
+    @Operation(summary = "게시물에서 채팅방이 없다면 생성하고 있다면 조회하여 채팅방으로 넘어가기")
     public ResponseEntity<ApiResponse<Long>> startChatRoom(
         @RequestBody ChatRoomReqDto chatRoomReqDto) {
         return ApiResponse.success(SuccessStatus.SEARCH_CHAT_ROOM_SUCCESS,
