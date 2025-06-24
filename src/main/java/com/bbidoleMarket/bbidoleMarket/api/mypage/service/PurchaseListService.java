@@ -4,6 +4,7 @@ import com.bbidoleMarket.bbidoleMarket.api.entity.ChatRoom;
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.dao.PurchaseListDao;
+import com.bbidoleMarket.bbidoleMarket.api.mypage.dto.PageResDto;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.dto.PurchaseListResDto;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.repository.ChatListRepository;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.repository.PostRepository;
@@ -13,6 +14,8 @@ import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ public class PurchaseListService {
     private final PurchaseListRepository purchaseListRepository;
     private final PostRepository postRepository;
     private final ChatListRepository chatListRepository;
+    private final PurchaseListDao purchaseListDao;
 
 
     //구매 목록 조회 <- 최신순인가..?
@@ -45,10 +49,20 @@ public class PurchaseListService {
 //        }
 //        return posts;
 //    }
-    private final PurchaseListDao purchaseListDao;
-    public List<PurchaseListResDto> getPurchaseList(Long userId){
-        return purchaseListDao.findPurchaseListByBuyerId(userId);
-    }
+//    private final PurchaseListDao purchaseListDao;
+//    public List<PurchaseListResDto> getPurchaseList(Long userId){
+//        return purchaseListDao.findPurchaseListByBuyerId(userId);
+//    }
 
     //페이지 네이션
+    public PageResDto<PurchaseListResDto> getPurchaseList(Long userId, Integer page, Integer pageSize){
+        int totalElements = purchaseListDao.countPurchaseByBuyerId(userId); //전체 페이지 수
+        int offset = page*pageSize; //전체 개수?
+        List<PurchaseListResDto> content = purchaseListDao.findPurchaseByBuyerId(userId, pageSize, offset);
+
+        int totalPages = (int)Math.ceil((double)totalElements/pageSize);
+        boolean last = (page+1)>=totalPages;
+
+        return new PageResDto<>(content, page, pageSize, totalElements, totalPages, last);
+    }
 }
