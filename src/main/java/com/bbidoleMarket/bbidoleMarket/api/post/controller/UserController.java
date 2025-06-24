@@ -1,6 +1,6 @@
 package com.bbidoleMarket.bbidoleMarket.api.post.controller;
 
-import com.bbidoleMarket.bbidoleMarket.api.post.dto.SellerDetailResDto;
+import com.bbidoleMarket.bbidoleMarket.api.post.dto.UserDetailResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.service.UserService;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.SuccessStatus;
@@ -31,10 +31,10 @@ public class UserController {
     }*/
 
     @GetMapping("/detail/{id}")
-    @Operation(summary = "사용자의 상세정보를 호출")
-    public ResponseEntity<ApiResponse<SellerDetailResDto>> getSeller(@PathVariable("id") Long id) {
+    @Operation(summary = "판매자의 상세정보를 요청")
+    public ResponseEntity<ApiResponse<UserDetailResDto>> getSeller(@PathVariable("id") Long id) {
         return ApiResponse
-            .success(SuccessStatus.SEARCH_USER_SUCCESS, userService.findSellerById(id));
+            .success(SuccessStatus.SEARCH_USER_SUCCESS, userService.findUserById(id));
     }
 
 }

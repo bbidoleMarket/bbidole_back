@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class SellerDetailResDto {
+public class UserDetailResDto {
 
     private long userId;
     private String nickname;
