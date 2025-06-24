@@ -1,14 +1,11 @@
 package com.bbidoleMarket.bbidoleMarket.api.mypage.service;
 
-import ch.qos.logback.core.spi.ErrorCodes;
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.image.enums.ImageFolder;
 import com.bbidoleMarket.bbidoleMarket.api.image.service.UploadImageService;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.dto.MyPageReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.repository.MyPageRepository;
-import com.bbidoleMarket.bbidoleMarket.api.mypage.repository.UserRepository;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
-import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

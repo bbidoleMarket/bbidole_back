@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
-@RequestMapping("/api/users")
+@RequestMapping("/api/purchased-list")
 public class PurchaseListController {
     private final PurchaseListService purchaseListService;
 
@@ -41,7 +41,7 @@ public class PurchaseListController {
 //
 //        return ResponseEntity.ok(purchaseListService.getPurchaseList(userId, page, pageSize));
 //    }
-    @GetMapping("/me/purchased-post/{id}") //토큰 검증 추가 시 id제거
+    @GetMapping("/me/{id}") //토큰 검증 추가 시 id제거
     public ResponseEntity<ApiResponse<PageResDto<PurchaseListResDto>>> getPurchaseList(@PathVariable("id") Long userId, @RequestParam int page, @RequestParam int pageSize){ //@AuthenticationPrincipal UserDetailsImpl user 변경
         //토큰에서 로그인한 사용자의 id 추출 추가 예정
 

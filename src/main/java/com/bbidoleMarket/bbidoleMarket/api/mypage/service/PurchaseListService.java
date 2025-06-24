@@ -1,33 +1,19 @@
 package com.bbidoleMarket.bbidoleMarket.api.mypage.service;
 
-import com.bbidoleMarket.bbidoleMarket.api.entity.ChatRoom;
-import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
-import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.dao.PurchaseListDao;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.dto.PageResDto;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.dto.PurchaseListResDto;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.repository.ChatListRepository;
-import com.bbidoleMarket.bbidoleMarket.api.mypage.repository.PostRepository;
-import com.bbidoleMarket.bbidoleMarket.api.mypage.repository.PurchaseListRepository;
-import com.bbidoleMarket.bbidoleMarket.api.mypage.repository.UserRepository;
-import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
-import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class PurchaseListService {
-    private final UserRepository userRepository;
-    private final PurchaseListRepository purchaseListRepository;
-    private final PostRepository postRepository;
     private final ChatListRepository chatListRepository;
     private final PurchaseListDao purchaseListDao;
 
