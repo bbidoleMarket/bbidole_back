@@ -50,9 +50,12 @@ public class ChatService {
 
     private MyChatListDto convertToMyChatListDto(ChatRoom chatRoom) {
         MyChatListDto myChatListDto = new MyChatListDto();
-        myChatListDto.setChatId(chatRoom.getId());
+        myChatListDto.setId(chatRoom.getId());
+        myChatListDto.setProductId(chatRoom.getPost().getId());
         myChatListDto.setProductName(chatRoom.getPost().getTitle());
+        myChatListDto.setSellerId(chatRoom.getSeller().getId());
         myChatListDto.setSellerName(chatRoom.getSeller().getName());
+        myChatListDto.setBuyerId(chatRoom.getBuyer().getId());
         myChatListDto.setBuyerName(chatRoom.getBuyer().getName());
         myChatListDto.setCompleted(chatRoom.getIsCompleted());
         return myChatListDto;
