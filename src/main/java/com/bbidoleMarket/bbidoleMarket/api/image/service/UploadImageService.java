@@ -74,5 +74,5 @@ public class UploadImageService {
         return String.format("https://storage.googleapis.com/%s/%s", bucketName, objectName);
     }
 
-//    Delete Method 추가할수 있음
+//    TODO Delete Method 추가할수 있음
 }
