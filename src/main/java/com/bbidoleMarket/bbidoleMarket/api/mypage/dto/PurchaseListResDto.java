@@ -2,6 +2,8 @@ package com.bbidoleMarket.bbidoleMarket.api.mypage.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -13,6 +15,7 @@ public class PurchaseListResDto {
     private int price;
     private String imageUrl;
     private boolean isSold;
+    private LocalDateTime regDate;
 
     public PurchaseListResDto(String title, int price, String imageUrl){
         this.title = title;
