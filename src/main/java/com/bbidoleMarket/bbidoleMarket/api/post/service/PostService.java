@@ -51,7 +51,8 @@ public class PostService {
 
         // 작성자와 수정자가 동일한지 체크
         if (post.getUser().getId() != dto.getUserId()) {
-            throw new UnauthorizedException("본인 것이 아닌 게시물의 수정은 불가능합니다.");
+            throw new UnauthorizedException(
+                ErrorStatus.OTHERS_USER_INFO_NOT_ALLOWED_EXCEPTION.getMessage());
         }
 
         if (image.isEmpty()) {
