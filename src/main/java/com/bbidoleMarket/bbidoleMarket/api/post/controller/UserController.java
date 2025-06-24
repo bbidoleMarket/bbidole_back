@@ -30,8 +30,8 @@ public class UserController {
         return ApiResponse.success_only(SuccessStatus.SEND_REGISTER_SUCCESS);
     }*/
 
-    @GetMapping("/{id}")
-    @Operation(summary = "판매자의 상세정보를 호출")
+    @GetMapping("/detail/{id}")
+    @Operation(summary = "사용자의 상세정보를 호출")
     public ResponseEntity<ApiResponse<SellerDetailResDto>> getSeller(@PathVariable("id") Long id) {
         return ApiResponse
             .success(SuccessStatus.SEARCH_USER_SUCCESS, userService.findSellerById(id));

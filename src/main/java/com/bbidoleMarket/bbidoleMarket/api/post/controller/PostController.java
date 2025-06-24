@@ -44,6 +44,7 @@ public class PostController {
         return ApiResponse.success(SuccessStatus.SEARCH_POST_SUCCESS, "게시물 저장에 성공했습니다.");
     }*/
 
+    // HTTP(Header:Content-Type) 설정 : consumes, produces
     @PutMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "게시물 수정 입니다.")
     public ResponseEntity<ApiResponse<Void>> update(
