@@ -5,15 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// TODO 삭제
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-public class ReviewReqDto {
+public class ReviewDto {
 
-    private Long reviewerId;
-    private Long revieweeId;
+    private long id;
+    private String writerNickname;
     private String content;
     private int rating;
 
