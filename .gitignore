@@ -159,3 +159,4 @@ coverage/
  application.properties
  titanium-vim-463401-s7-198e16ffe692.json
  src/main/resources/*.jsons
+ src/main/resources/
