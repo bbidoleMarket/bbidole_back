@@ -1,7 +1,7 @@
 package com.bbidoleMarket.bbidoleMarket.api.login.service;
 
 import com.bbidoleMarket.bbidoleMarket.api.login.dto.LoginReqDto;
-import com.bbidoleMarket.bbidoleMarket.api.login.entity.User;
+import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.login.repository.UserRepository;
 import com.bbidoleMarket.bbidoleMarket.api.signup.dto.SignupReqDto;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
@@ -47,5 +47,19 @@ public class UserService {
         );
 
         return userRepository.save(user);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
+    }
+
+    public boolean isEmailAvailable(String email) {
+        return !userRepository.existsByEmail(email);
     }
 }
