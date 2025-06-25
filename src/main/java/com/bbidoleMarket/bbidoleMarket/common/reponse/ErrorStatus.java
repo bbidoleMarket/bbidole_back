@@ -20,7 +20,8 @@ public enum ErrorStatus {
     IMAGE_MISSING_EXCEPTION(HttpStatus.BAD_REQUEST, "이미지 파일이 없습니다"),
     INVALID_SEARCH_PARAMETER(HttpStatus.BAD_REQUEST, "검색 파라미터가 올바르지 않습니다."),
     VALIDATION_REQUEST_PAGENATION_EXCEPTION(HttpStatus.BAD_REQUEST, "페이지 번호와 크기는 0보다 커야 합니다."),
-
+    POST_NOT_FOUND_EXCEPTION(HttpStatus.BAD_REQUEST,"해당 게시물이 없습니다"),
+    SELLER_EQUAL_BUY(HttpStatus.BAD_REQUEST,"자신의 게시글에 채팅방을 만들수 없습니다"),
     /**
      * 401 UNAUTHORIZED
      */
