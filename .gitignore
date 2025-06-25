@@ -155,6 +155,3 @@ coverage/
 # OS 환경에서 생기는 잡파일 (Linux/Windows/Mac 환경 모두 포함)
 *.pid
 *.seed
-
-#GCP 설정 파일
-titanium-vim-463401-s7-198e16ffe692.json
