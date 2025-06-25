@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
@@ -63,12 +64,12 @@ public class User {
 //    private List<Review> reviews = new ArrayList<>();
 
     @Builder
-    public static User createUser(String name, String email, String password, String nickname) {
+    public static User createUser(String name, String email, String password, String nickname, PasswordEncoder passwordEncoder) {
         // TODO email, password 형식 한번 더 검사하기
         User user = new User();
         user.name = name;
         user.email = email;
-        user.password = password;
+        user.password = passwordEncoder.encode(password);
         user.nickname = nickname;
         user.totalRating = -1.0;
         return user;
