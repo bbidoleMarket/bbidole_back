@@ -20,7 +20,9 @@ public enum SuccessStatus {
     SEND_USER_INFO_SUCCESS(HttpStatus.OK,"사용자 정보 조회 성공"),
     SEND_EMAIL_CHECK_SUCCESS(HttpStatus.OK,"이메일 사용 가능"),
     SEND_NICKNAME_CHECK_SUCCESS(HttpStatus.OK,"닉네임 사용 가능"),
-
+    CREATE_POST_SUCCESS(HttpStatus.CREATED, "게시글 등록 성공"),
+    GET_POST_LIST_SUCCESS(HttpStatus.OK, "물품 목록 조회 성공"),
+    SEARCH_POST_SUCCESS(HttpStatus.OK, "물품 검색 성공"),
 
     /**
      * 201
