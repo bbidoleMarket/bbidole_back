@@ -49,4 +49,14 @@ public class ApiResponse<T> {
                 .message(message)
                 .build();
     }
+
+    public static <T> ResponseEntity<ApiResponse<T>> error(ErrorStatus status, T data) {
+        ApiResponse<T> response = ApiResponse.<T>builder()
+                .status(status.getStatusCode())
+                .success(false)
+                .message(status.getMessage())
+                .data(data)
+                .build();
+        return ResponseEntity.status(status.getHttpStatus()).body(response);
+    }
 }
