@@ -14,7 +14,8 @@ public enum SuccessStatus {
      */
     SEND_REGISTER_SUCCESS(HttpStatus.OK,"회원가입 성공"),
     SEND_HEALTH_SUCCESS(HttpStatus.OK,"서버 상태 OK"),
-
+    GET_POST_LIST_SUCCESS(HttpStatus.OK, "물품 목록 조회 성공"),
+    SEARCH_POST_SUCCESS(HttpStatus.OK, "물품 검색 성공"),
 
     /**
      * 201
