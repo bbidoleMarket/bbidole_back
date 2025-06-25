@@ -12,5 +12,6 @@ public class MyChatListDto {
     private String sellerName;
     private Long buyerId;
     private String buyerName;
+    private Long othersId;
     private boolean isCompleted;
 }
