@@ -34,10 +34,13 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // jwt
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.hibernate.validator:hibernate-validator'
+    //implementation 'org.springframework.boot:spring-boot-starter-security'
+    //implementation 'org.hibernate.validator:hibernate-validator'
     // Test 값 확인하기
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.11.0'
+    // WebSocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
 
 tasks.named('test') {
