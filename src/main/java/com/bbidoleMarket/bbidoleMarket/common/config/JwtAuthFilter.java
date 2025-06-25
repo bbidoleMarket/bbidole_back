@@ -94,8 +94,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     }
                 }
 
-                // 토큰에서 사용자 ID 추출
+                // 토큰에서 사용자 ID 추출 (Long ID를 String으로)
                 userId = jwtUtil.extractUserId(jwt);
+
             } catch (ExpiredJwtException e) {
                 logger.error("토큰이 만료되었습니다", e);
                 sendErrorResponse(response, "TOKEN_EXPIRED", "토큰이 만료되었습니다");
