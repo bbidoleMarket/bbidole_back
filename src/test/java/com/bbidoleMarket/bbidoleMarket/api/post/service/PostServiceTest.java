@@ -1,5 +1,6 @@
 package com.bbidoleMarket.bbidoleMarket.api.post.service;
 
+import com.bbidoleMarket.bbidoleMarket.api.login.service.UserService;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostDetailResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSaveReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSimpleDto;

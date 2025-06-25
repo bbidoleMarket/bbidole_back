@@ -3,11 +3,12 @@ package com.bbidoleMarket.bbidoleMarket.api.post.service;
 import com.bbidoleMarket.bbidoleMarket.api.entity.ChatRoom;
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
+import com.bbidoleMarket.bbidoleMarket.api.login.repository.UserRepository;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.ChatRoomReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.ChatRoomResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.ChatRoomRepository;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.PostRepository;
-import com.bbidoleMarket.bbidoleMarket.api.post.repository.UserRepository;
+
 import com.bbidoleMarket.bbidoleMarket.common.exception.InternalServerException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;

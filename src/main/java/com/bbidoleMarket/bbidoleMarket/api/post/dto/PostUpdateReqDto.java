@@ -26,7 +26,4 @@ public class PostUpdateReqDto {
     @NotNull
     private int price;
 
-    @Positive
-    @NotNull
-    private long userId;
 }

@@ -13,13 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "", description = "")
@@ -37,21 +32,15 @@ public class PostController {
         return ApiResponse.success(SuccessStatus.SEARCH_POST_SUCCESS, postService.findById(id));
     }
 
-    /*// TODO 삭제
-    @PostMapping("/")
-    public ResponseEntity<ApiResponse<String>> save(@RequestBody PostSaveReqDto dto) {
-        postService.save(dto);
-        return ApiResponse.success(SuccessStatus.SEARCH_POST_SUCCESS, "게시물 저장에 성공했습니다.");
-    }*/
-
     // HTTP(Header:Content-Type) 설정 : consumes, produces
     @PutMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "게시물 수정 입니다.")
     public ResponseEntity<ApiResponse<Void>> update(
         @RequestPart(name = "image", required = false) MultipartFile image,
-        @RequestPart(name = "dto") PostUpdateReqDto dto
+        @ModelAttribute(name = "dto") PostUpdateReqDto dto,
+        @AuthenticationPrincipal String id
     ) {
-        postService.update(dto, image);
+        postService.update(dto, image,id);
         return ApiResponse.success_only(SuccessStatus.UPDATE_POST_SUCCESS);
     }
 
@@ -66,6 +55,20 @@ public class PostController {
             .success(SuccessStatus.SEARCH_POST_SUCCESS, postService.findByUserId(id, page, size));
 
     }
+
+    @GetMapping("/seller")
+    @Operation(summary = "내가 판매하는 게시물의 조회입니다.")
+    public ResponseEntity<ApiResponse<PageResDto<PostSimpleDto>>> findAllListByUserId(
+            @AuthenticationPrincipal String id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
+    ) {
+        Long userId = Long.parseLong(id);
+        return ApiResponse
+                .success(SuccessStatus.SEARCH_POST_SUCCESS, postService.findByUserId(userId, page, size));
+
+    }
+
 
 
 }

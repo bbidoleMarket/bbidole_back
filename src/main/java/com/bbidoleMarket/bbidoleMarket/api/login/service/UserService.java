@@ -3,10 +3,12 @@ package com.bbidoleMarket.bbidoleMarket.api.login.service;
 import com.bbidoleMarket.bbidoleMarket.api.login.dto.LoginReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.login.repository.UserRepository;
+import com.bbidoleMarket.bbidoleMarket.api.post.dto.UserDetailResDto;
 import com.bbidoleMarket.bbidoleMarket.api.signup.dto.SignupReqDto;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BaseException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
+import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,5 +63,17 @@ public class UserService {
 
     public boolean isEmailAvailable(String email) {
         return !userRepository.existsByEmail(email);
+    }
+
+    public UserDetailResDto findUserById(Long id) {
+        User seller = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+        UserDetailResDto sellerDetailResDto = new UserDetailResDto();
+        sellerDetailResDto.setUserId(id);
+        sellerDetailResDto.setNickname(seller.getNickname());
+        sellerDetailResDto.setTotalRating(seller.getTotalRating());
+        sellerDetailResDto.setImageUrl(seller.getProfileImage());
+        return sellerDetailResDto;
     }
 }
