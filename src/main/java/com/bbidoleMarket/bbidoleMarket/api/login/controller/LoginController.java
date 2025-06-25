@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -46,8 +47,8 @@ public class LoginController {
         try {
             User user = userService.login(loginReqDto);
 
-            String accessToken = jwtUtil.generateAccessToken(user.getEmail());
-            String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
+            String accessToken = jwtUtil.generateAccessToken(user.getId().toString());
+            String refreshToken = jwtUtil.generateRefreshToken(user.getId().toString());
 
             LoginResDto result = new LoginResDto(
                     accessToken,
@@ -96,7 +97,7 @@ public class LoginController {
         try {
             // Authorization 헤더에서 리프레시 토큰 추출
             String refreshToken = jwtUtil.extractTokenFromRequest(request);
-            
+
             if (refreshToken == null) {
                 throw new UnauthorizedException("리프레시 토큰이 없습니다.");
             }
@@ -105,12 +106,12 @@ public class LoginController {
                 throw new UnauthorizedException("유효하지 않은 리프레시 토큰입니다.");
             }
 
-            String email = jwtUtil.getEmailFromToken(refreshToken);
-            User user = userService.findByEmail(email);
+            String userId = jwtUtil.extractUserId(refreshToken);
+            User user = userService.findById(Long.parseLong(userId));
 
             // 새로운 토큰들 생성
-            String newAccessToken = jwtUtil.generateAccessToken(user.getEmail());
-            String newRefreshToken = jwtUtil.generateRefreshToken(user.getEmail());
+            String newAccessToken = jwtUtil.generateAccessToken(user.getId().toString());
+            String newRefreshToken = jwtUtil.generateRefreshToken(user.getId().toString());
 
             // 기존 리프레시 토큰을 무효화 (보안상 중요)
             jwtUtil.invalidateToken(refreshToken);

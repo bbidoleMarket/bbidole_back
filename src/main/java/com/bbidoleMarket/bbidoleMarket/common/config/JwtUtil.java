@@ -117,7 +117,7 @@ public class JwtUtil {
         }
     }
 
-    public String getEmailFromToken(String token) {
+    public String getUserIdFromToken(String token) {
         return extractUserId(token);
     }
 
