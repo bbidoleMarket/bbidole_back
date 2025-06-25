@@ -9,6 +9,4 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ChatRoomReqDto {
     private Long postId;
-    private Long sellerId;
-    private Long buyerId;
 }

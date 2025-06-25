@@ -10,7 +10,9 @@ import com.bbidoleMarket.bbidoleMarket.api.entity.ChatMessage;
 import com.bbidoleMarket.bbidoleMarket.api.entity.ChatRoom;
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
-import com.bbidoleMarket.bbidoleMarket.api.user.UserRepository;
+import com.bbidoleMarket.bbidoleMarket.api.login.repository.UserRepository;
+import com.bbidoleMarket.bbidoleMarket.api.post.repository.PostRepository;
+import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
 import jakarta.transaction.Transactional;
@@ -28,19 +30,25 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     public MyChatListDto startChatRoom(ChatRoomReqDto chatRoomReqDto, Long userId) {
-        ChatRoom chatRoom = chatRepository.findByPostIdAndBuyerIdAndSellerId(
-                chatRoomReqDto.getPostId(), chatRoomReqDto.getBuyerId(), chatRoomReqDto.getSellerId());
-
-        if (chatRoom != null)
-            return convertToMyChatListDto(chatRoom, userId);
-
         Post post = postRepository.findById(chatRoomReqDto.getPostId()).orElseThrow(
                 () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
 
         User seller = post.getUser();
-        User buyer = userRepository.findById(chatRoomReqDto.getBuyerId()).orElseThrow(
+
+        ChatRoom chatRoom = chatRepository.findByPostIdAndBuyerIdAndSellerId(
+                post.getId(), userId, seller.getId());
+
+        if (chatRoom != null)
+            return convertToMyChatListDto(chatRoom, userId);
+
+        if(seller.getId().equals(userId)){
+            throw new BadRequestException(ErrorStatus.SELLER_EQUAL_BUY.getMessage());
+        }
+
+        User buyer = userRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
 
         chatRoom = ChatRoom.createChatRoom(post, buyer, seller);
