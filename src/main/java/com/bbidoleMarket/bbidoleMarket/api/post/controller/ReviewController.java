@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +38,17 @@ public class ReviewController {
                 reviewService.getReviewWithSeller(userId, page, size));
     }
 
-    /*// TODO 삭제
-    @PostMapping("/")
-    public ResponseEntity<ApiResponse<String>> createReview(
-        @RequestBody ReviewReqDto reviewReqDto) {
-        reviewService.save(reviewReqDto);
-        return ApiResponse.success(SuccessStatus.CREATE_RECRUIT_ARTICLE_SUCCESS, "리뷰 작성에 성공하였습니다.");
+    @GetMapping
+    @Operation(summary = "나의 리뷰를 조회")
+    public ResponseEntity<ApiResponse<PageResDto<ReviewResDto>>> getReviewWithUserId(
+            @AuthenticationPrincipal String id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
+    ) {
+        Long userId = Long.parseLong(id);
+        return ApiResponse
+                .success(SuccessStatus.SEARCH_REVIEW_SUCCESS,
+                        reviewService.getReviewWithSeller(userId, page, size));
     }
-*/
+
 }

@@ -1,5 +1,6 @@
 package com.bbidoleMarket.bbidoleMarket.api.post.service;
 
+import com.bbidoleMarket.bbidoleMarket.api.login.service.UserService;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.ChatRoomReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.ChatRoomResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSaveReqDto;

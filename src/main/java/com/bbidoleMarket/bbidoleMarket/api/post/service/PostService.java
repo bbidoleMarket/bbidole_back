@@ -6,11 +6,9 @@ import com.bbidoleMarket.bbidoleMarket.api.image.enums.ImageFolder;
 import com.bbidoleMarket.bbidoleMarket.api.image.service.UploadImageService;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PageResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostDetailResDto;
-import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSaveReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostSimpleDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PostUpdateReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.PostRepository;
-import com.bbidoleMarket.bbidoleMarket.api.post.repository.UserRepository;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BaseException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.UnauthorizedException;
@@ -33,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
     private final UploadImageService uploadImageService;
 
     @Transactional(readOnly = true)
@@ -44,13 +41,14 @@ public class PostService {
         return PostDetailResDto.fromPost(post);
     }
 
-    public void update(PostUpdateReqDto dto, MultipartFile image) {
+    public void update(PostUpdateReqDto dto, MultipartFile image, String id) {
+        Long userId = Long.parseLong(id);
         Post post = postRepository.findById(dto.getPostId())
             .orElseThrow(
                 () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
 
         // 작성자와 수정자가 동일한지 체크
-        if (post.getUser().getId() != dto.getUserId()) {
+        if (!post.getUser().getId().equals(userId)) {
             throw new UnauthorizedException(
                 ErrorStatus.OTHERS_USER_INFO_NOT_ALLOWED_EXCEPTION.getMessage());
         }
@@ -71,15 +69,6 @@ public class PostService {
         }
     }
 
-    // TODO 삭제
-    public Long save(PostSaveReqDto dto) {
-        User writer = userRepository.findById(dto.getUserId())
-            .orElseThrow(() -> new NotFoundException("게시물을 작성하려면 회원가입/로그인이 필요합니다."));
-
-        Post post = Post.createPost(dto.getTitle(), dto.getPrice(), dto.getImageUrl(),
-            dto.getDescription(), writer);
-        return postRepository.save(post).getId();
-    }
 
     @Transactional(readOnly = true)
     public List<PostSimpleDto> findByUserId(Long userId) {

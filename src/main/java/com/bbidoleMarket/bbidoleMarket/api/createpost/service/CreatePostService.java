@@ -5,7 +5,7 @@ import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.image.enums.ImageFolder;
 import com.bbidoleMarket.bbidoleMarket.api.image.service.UploadImageService;
 import com.bbidoleMarket.bbidoleMarket.api.createpost.dto.CreatePostDto;
-import com.bbidoleMarket.bbidoleMarket.api.createpost.repository.PostRepository;
+import com.bbidoleMarket.bbidoleMarket.api.createpost.repository.CreatePostRepository;
 import com.bbidoleMarket.bbidoleMarket.api.login.repository.UserRepository;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
@@ -19,9 +19,9 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PostService {
+public class CreatePostService {
 
-    private final PostRepository postRepository;
+    private final CreatePostRepository postRepository;
     private final UploadImageService uploadImageService;
     private final UserRepository userRepository;
 

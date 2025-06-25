@@ -1,6 +1,7 @@
 package com.bbidoleMarket.bbidoleMarket.api.post.service;
 
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
+import com.bbidoleMarket.bbidoleMarket.api.login.service.UserService;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.SigninDto;
 import com.bbidoleMarket.bbidoleMarket.common.TestUtils;
 import org.junit.jupiter.api.Assertions;
