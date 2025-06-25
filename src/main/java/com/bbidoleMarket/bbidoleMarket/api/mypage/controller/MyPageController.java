@@ -1,6 +1,7 @@
 package com.bbidoleMarket.bbidoleMarket.api.mypage.controller;
 
 import com.bbidoleMarket.bbidoleMarket.api.mypage.dto.MyPageReqDto;
+import com.bbidoleMarket.bbidoleMarket.api.mypage.dto.MyPageResDto;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.repository.MyPageRepository;
 import com.bbidoleMarket.bbidoleMarket.api.mypage.service.MyPageService;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
@@ -19,6 +20,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class MyPageController {
     private final MyPageService myPageService;
 
+    //이름
+    @GetMapping("/name")
+    public ResponseEntity<ApiResponse<MyPageResDto>> userName(@RequestParam String email){ // @AuthenticationPrincipal
+        // Long userId = userDetails.getUser().getId(); // 로그인한 사용자 ID
+        // myPageService.userName(userId);
+        MyPageResDto dto = myPageService.userName(email);
+        return ApiResponse.success(SuccessStatus.SEND_HEALTH_SUCCESS,dto);
+    }
+
     //회원 정보 수정
 //    @PutMapping("/update")
 //    public ResponseEntity<Boolean> modifyMyPage(@RequestBody MyPageReqDto myPageReqDto) {
@@ -29,7 +39,7 @@ public class MyPageController {
         // Long userId = userDetails.getUser().getId(); // 로그인한 사용자 ID
         //myPageService.modifyMyPage(userId,myPageReqDto);
         myPageService.modifyMyPage(myPageReqDto); //이메일로 검증 중 변경 예정
-        return ApiResponse.success_only(SuccessStatus.SEND_PROFILE_IMAGE_UPDATE_SUCCESS);
+        return ApiResponse.success_only(SuccessStatus.SEND_USER_UPDATE_SUCCESS);
     }
     //프로필 사진 수정
 //    @PutMapping("/profile-image")
