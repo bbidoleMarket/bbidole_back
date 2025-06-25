@@ -1,21 +1,22 @@
 package com.bbidoleMarket.bbidoleMarket.api.post.dto;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// TODO 삭제
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-public class PostSaveReqDto {
+public class UserDetailReqDto {
 
     private long userId;
-    private String title;
-    private String description;
-    private int price;
+    private String nickname;
     private String imageUrl;
+    private Double totalRating;
+    private List<ReviewDto> reviews;
+    private List<PostSimpleDto> posts;
 
 }

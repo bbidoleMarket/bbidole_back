@@ -77,12 +77,6 @@ public class Post {
         this.description = description;
     }
 
-    public void updatePost(String title, int price, String description) {
-        this.title = title;
-        this.price = price;
-        this.description = description;
-    }
-
     public void sold() {
         isSold = true;
     }
