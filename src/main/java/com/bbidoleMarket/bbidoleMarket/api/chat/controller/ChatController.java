@@ -32,8 +32,14 @@ public class ChatController {
     }
 
     @PostMapping("/start")
-    public ResponseEntity<ApiResponse<MyChatListDto>> startChat(@RequestBody final ChatRoomReqDto chatRoomReqDto) {
-        return ApiResponse.success(SuccessStatus.GET_CHAT_ROOM_SUCCESS, chatService.startChatRoom(chatRoomReqDto));
+    public ResponseEntity<ApiResponse<MyChatListDto>> startChat(@RequestBody final ChatRoomReqDto chatRoomReqDto, @AuthenticationPrincipal String strUserId) {
+        Long userId = null;
+        try {
+            userId = Long.parseLong(strUserId);
+        } catch (NumberFormatException e) {
+            System.out.println("숫자로 변환할 수 없습니다.");
+        }
+        return ApiResponse.success(SuccessStatus.GET_CHAT_ROOM_SUCCESS, chatService.startChatRoom(chatRoomReqDto, userId));
     }
 
     @GetMapping("/{chatId}")

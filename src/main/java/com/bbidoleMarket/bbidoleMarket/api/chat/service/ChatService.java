@@ -29,12 +29,12 @@ public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
 
-    public MyChatListDto startChatRoom(ChatRoomReqDto chatRoomReqDto) {
+    public MyChatListDto startChatRoom(ChatRoomReqDto chatRoomReqDto, Long userId) {
         ChatRoom chatRoom = chatRepository.findByPostIdAndBuyerIdAndSellerId(
                 chatRoomReqDto.getPostId(), chatRoomReqDto.getBuyerId(), chatRoomReqDto.getSellerId());
 
         if (chatRoom != null)
-            return convertToMyChatListDto(chatRoom);
+            return convertToMyChatListDto(chatRoom, userId);
 
         Post post = postRepository.findById(chatRoomReqDto.getPostId()).orElseThrow(
                 () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
@@ -45,14 +45,14 @@ public class ChatService {
 
         chatRoom = ChatRoom.createChatRoom(post, buyer, seller);
         chatRepository.save(chatRoom);
-        return convertToMyChatListDto(chatRoom);
+        return convertToMyChatListDto(chatRoom, userId);
     }
 
     public List<MyChatListDto> getMyChatlist(Long userId) {
         List<ChatRoom> chatRooms = chatRepository.findByBuyerIdOrSellerId(userId, userId);
         List<MyChatListDto> myChatListDtos = new ArrayList<>();
         for (ChatRoom chatRoom : chatRooms) {
-            myChatListDtos.add(convertToMyChatListDto(chatRoom));
+            myChatListDtos.add(convertToMyChatListDto(chatRoom, userId));
         }
         return myChatListDtos;
     }
@@ -72,7 +72,7 @@ public class ChatService {
         chatRepository.save(chatRoom);
     }
 
-    private MyChatListDto convertToMyChatListDto(ChatRoom chatRoom) {
+    private MyChatListDto convertToMyChatListDto(ChatRoom chatRoom, Long userId) {
         MyChatListDto myChatListDto = new MyChatListDto();
         myChatListDto.setId(chatRoom.getId());
         myChatListDto.setProductId(chatRoom.getPost().getId());
@@ -82,6 +82,10 @@ public class ChatService {
         myChatListDto.setBuyerId(chatRoom.getBuyer().getId());
         myChatListDto.setBuyerName(chatRoom.getBuyer().getName());
         myChatListDto.setCompleted(chatRoom.getIsCompleted());
+        if (chatRoom.getBuyer().getId().equals(userId)) {
+            myChatListDto.setOthersId(chatRoom.getSeller().getId());
+        } else
+            myChatListDto.setOthersId(chatRoom.getBuyer().getId());
         return myChatListDto;
     }
 
