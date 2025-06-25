@@ -17,6 +17,9 @@ public enum ErrorStatus {
     VALIDATION_EMAIL_FORMAT_EXCEPTION(HttpStatus.BAD_REQUEST, "올바른 이메일 형식이 아닙니다."),
     WRONG_PASSWORD_EXCEPTION(HttpStatus.BAD_REQUEST, "아이디 또는 비밀번호가 일치하지 않습니다."),
     ALREADY_REGISTER_NICKNAME_EXCEPTION(HttpStatus.BAD_REQUEST, "이미 등록된 닉네임 입니다."),
+    INVALID_SEARCH_PARAMETER(HttpStatus.BAD_REQUEST, "검색 파라미터가 올바르지 않습니다."),
+    IMAGE_MISSING_EXCEPTION(HttpStatus.BAD_REQUEST, "이미지 파일이 없습니다"),
+    VALIDATION_REQUEST_PAGENATION_EXCEPTION(HttpStatus.BAD_REQUEST, "페이지 번호와 크기는 0보다 커야 합니다."),
 
     /**
      * 401 UNAUTHORIZED
@@ -30,6 +33,7 @@ public enum ErrorStatus {
     NOT_LOGIN_EXCEPTION(HttpStatus.NOT_FOUND, "로그인이 필요합니다."),
     USER_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 사용자를 찾을 수 없습니다."),
     EMAIL_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 이메일을 찾을 수 없습니다."),
+    POST_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 물품을 찾을 수 없습니다."),
 
     /**
      * 500 SERVER_ERROR
