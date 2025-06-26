@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/api/review")
+@CrossOrigin("http://localhost:5173")
 @RequiredArgsConstructor
 public class ReviewController {
 
@@ -41,14 +43,14 @@ public class ReviewController {
     @GetMapping
     @Operation(summary = "나의 리뷰를 조회")
     public ResponseEntity<ApiResponse<PageResDto<ReviewResDto>>> getReviewWithUserId(
-            @AuthenticationPrincipal String id,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
+        @AuthenticationPrincipal String id,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
     ) {
         Long userId = Long.parseLong(id);
         return ApiResponse
-                .success(SuccessStatus.SEARCH_REVIEW_SUCCESS,
-                        reviewService.getReviewWithSeller(userId, page, size));
+            .success(SuccessStatus.SEARCH_REVIEW_SUCCESS,
+                reviewService.getReviewWithSeller(userId, page, size));
     }
 
 }
