@@ -24,8 +24,8 @@ public class UploadImageService {
 
     @Autowired
     public UploadImageService(
-        @Value("${spring.cloud.gcp.storage.bucket}") String bucketName,
-        Storage storage
+            @Value("${spring.cloud.gcp.storage.bucket}") String bucketName,
+            Storage storage
     ) {
         this.bucketName = bucketName;
         this.storage = storage;
@@ -57,8 +57,8 @@ public class UploadImageService {
         // GCS에 업로드
         BlobId blobId = BlobId.of(bucketName, objectName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
-            .setContentType(contentType)
-            .build();
+                .setContentType(contentType)
+                .build();
 
         try (WriteChannel writer = storage.writer(blobInfo)) {
             byte[] buffer = new byte[1024];
