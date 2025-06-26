@@ -22,6 +22,7 @@ public enum ErrorStatus {
     VALIDATION_REQUEST_PAGENATION_EXCEPTION(HttpStatus.BAD_REQUEST, "페이지 번호와 크기는 0보다 커야 합니다."),
     POST_NOT_FOUND_EXCEPTION(HttpStatus.BAD_REQUEST,"해당 게시물이 없습니다"),
     SELLER_EQUAL_BUY(HttpStatus.BAD_REQUEST,"자신의 게시글에 채팅방을 만들수 없습니다"),
+    YOU_ARE_NOT_SELLER(HttpStatus.BAD_REQUEST,"해당 게시글의 판매자가 아닙니다."),
     /**
      * 401 UNAUTHORIZED
      */

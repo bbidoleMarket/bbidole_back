@@ -76,6 +76,9 @@ public class ChatService {
 
     public void setSold(Long id) {
         ChatRoom chatRoom = chatRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorStatus.CHAT_NOT_FOUND_EXCEPTION.getMessage()));
+        if (!id.equals(chatRoom.getSeller().getId())) {
+            throw new BadRequestException(ErrorStatus.YOU_ARE_NOT_SELLER.getMessage());
+        }
         chatRoom.completeChat();
         chatRepository.save(chatRoom);
     }
