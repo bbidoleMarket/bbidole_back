@@ -26,27 +26,23 @@ public class MyPageService {
     private final UploadImageService uploadImageService;
 
     //이름 출력
-    public MyPageResDto userName(String email){
-        //이메일로 사용자 찾기 변경예정
-        User user = myPageRepository.findByEmail(email)
+    public MyPageResDto userName(Long userId){
+        //user_id로 사용자 찾기
+        User user = myPageRepository.findById(userId)
                 .orElseThrow(()->new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
-        //토큰에서 추출한 id넘겨 받으면 검증
-        //User user = myPageRepository.findByName(name)
-        //        .orElseThrow(new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+
         MyPageResDto myPageResDto = new MyPageResDto();
         myPageResDto.setName(user.getName());
         return myPageResDto;
     }
     //회원 정보 수정
-    public void modifyMyPage(MyPageReqDto myPageReqDto){ //Long userId
+    public void modifyMyPage(MyPageReqDto myPageReqDto,Long userId){ //Long userId
         //유효성 확인
         myPageReqDto.validateUserInfo();
-        //이메일로 사용자 찾기 변경예정
-        User user = myPageRepository.findByEmail(myPageReqDto.getEmail())
-                .orElseThrow(()->new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
         //토큰에서 추출한 id넘겨 받으면 검증
-        //User user = myPageRepository.findById(userId)
-        //        .orElseThrow(new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+        User user = myPageRepository.findById(userId)
+                .orElseThrow(()->new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+
         //데이터 형식 검증(비번,이메일)
         if(!myPageReqDto.getNickname().matches("^.{2,30}$")) throw new BadRequestException("올바른 닉네임 형식이 아닙니다.");
         if (!myPageReqDto.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$]).{8,15}$")) throw new BadRequestException("올바른 비밀번호 형식이 아닙니다.");
@@ -57,18 +53,13 @@ public class MyPageService {
 
     }
     //프로필 사진 수정
-    public void modifyProfileImage(MyPageReqDto myPageReqDto, MultipartFile image) { //Long userId
+    public void modifyProfileImage(MyPageReqDto myPageReqDto, MultipartFile image,Long userId) { //Long userId
 
     //기본 이미지로 바꾸기?
 
-        //사용자 이메일 받아서 회원 확인 -> 토큰으로 변경 예정
-        String email = myPageReqDto.getEmail();
-        //이메일로 사용자 찾기
-        User user = myPageRepository.findByEmail(myPageReqDto.getEmail())
-                .orElseThrow(()->new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
         //토큰에서 추출한 id넘겨 받으면 검증
-        //User user = myPageRepository.findById(userId)
-        //        .orElseThrow(new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+        User user = myPageRepository.findById(userId)
+                .orElseThrow(()->new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
 
         String profileImage;
         try {

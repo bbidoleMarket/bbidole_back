@@ -12,8 +12,6 @@ public class MyPageReqDto {
     private String passwordConfirm;
     private String profileImage;
 
-    private String email;
-
     //입력값 빈칸 검증
     public void validateUserInfo(){
         if(isBlank(nickname) || isBlank(password) || isBlank(passwordConfirm))

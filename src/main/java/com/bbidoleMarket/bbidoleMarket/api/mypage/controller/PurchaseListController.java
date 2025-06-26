@@ -8,6 +8,7 @@ import com.bbidoleMarket.bbidoleMarket.common.reponse.SuccessStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,10 +36,10 @@ public class PurchaseListController {
 //        return ApiResponse.success_only(SuccessStatus.SEND_HEALTH_SUCCESS);
 //    }
 
-    @GetMapping("/me/{id}") //토큰 검증 추가 시 id제거
-    public ResponseEntity<ApiResponse<PageResDto<PurchaseListResDto>>> getPurchaseList(@PathVariable("id") Long userId, @RequestParam int page, @RequestParam int pageSize){ //@AuthenticationPrincipal UserDetailsImpl user 변경
+    @GetMapping("/me") //토큰 검증 추가 시 id제거
+    public ResponseEntity<ApiResponse<PageResDto<PurchaseListResDto>>> getPurchaseList(@AuthenticationPrincipal String id, @RequestParam int page, @RequestParam int pageSize){ //@AuthenticationPrincipal UserDetailsImpl user 변경
         //토큰에서 로그인한 사용자의 id 추출 추가 예정
-        //Long userId = userDetails.getUser().getId();
+        Long userId = Long.parseLong(id);
         PageResDto<PurchaseListResDto> result = purchaseListService.getPurchaseList(userId, page, pageSize);
         return ApiResponse.success(SuccessStatus.SEND_HEALTH_SUCCESS,result);
     }
