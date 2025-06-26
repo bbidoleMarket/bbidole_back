@@ -52,7 +52,8 @@ public class PostService {
                 ErrorStatus.OTHERS_USER_INFO_NOT_ALLOWED_EXCEPTION.getMessage());
         }
 
-        if (image.isEmpty()) {
+//        if (image.isEmpty()) { // image가 null일 때 NullPointerException 발생
+        if (image == null || image.isEmpty()) {
             post.updatePost(dto.getTitle(), dto.getPrice(), dto.getDescription());
             return;
         }
