@@ -7,10 +7,6 @@ import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,10 +19,6 @@ public class UploadImageService {
     private final Storage storage;
 
     @Autowired
-    public UploadImageService(
-        @Value("${spring.cloud.gcp.storage.bucket}") String bucketName,
-        Storage storage
-    ) {
         this.bucketName = bucketName;
         this.storage = storage;
     }
@@ -43,7 +35,6 @@ public class UploadImageService {
 
         // 고유한 파일명 생성 (UUID + 원본 파일명)
         String originalFilename = image.getOriginalFilename();
-        String filename = UUID.randomUUID() + "_" + originalFilename;
 
         // 전체 경로 생성 (폴더 + 파일명)
         String objectName = folderPath + filename;
@@ -73,6 +64,4 @@ public class UploadImageService {
         // 이미지 URL 반환
         return String.format("https://storage.googleapis.com/%s/%s", bucketName, objectName);
     }
-
-//    TODO Delete Method 추가할수 있음
 }
