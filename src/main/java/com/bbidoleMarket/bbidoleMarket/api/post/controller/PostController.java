@@ -14,13 +14,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "", description = "")
 @Slf4j
 @RequestMapping("/api/post")
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:5173")
 @RestController
 public class PostController {
 
@@ -40,7 +49,7 @@ public class PostController {
         @ModelAttribute(name = "dto") PostUpdateReqDto dto,
         @AuthenticationPrincipal String id
     ) {
-        postService.update(dto, image,id);
+        postService.update(dto, image, id);
         return ApiResponse.success_only(SuccessStatus.UPDATE_POST_SUCCESS);
     }
 
@@ -56,19 +65,17 @@ public class PostController {
 
     }
 
-    @GetMapping("/seller")
+    @GetMapping("/my")
     @Operation(summary = "내가 판매하는 게시물의 조회입니다.")
     public ResponseEntity<ApiResponse<PageResDto<PostSimpleDto>>> findAllListByUserId(
-            @AuthenticationPrincipal String id,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
+        @AuthenticationPrincipal String id,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size
     ) {
         Long userId = Long.parseLong(id);
         return ApiResponse
-                .success(SuccessStatus.SEARCH_POST_SUCCESS, postService.findByUserId(userId, page, size));
-
+            .success(SuccessStatus.SEARCH_POST_SUCCESS,
+                postService.findByUserId(userId, page, size));
     }
-
-
 
 }
