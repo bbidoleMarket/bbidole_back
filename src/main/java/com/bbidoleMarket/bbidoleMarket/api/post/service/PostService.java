@@ -1,7 +1,6 @@
 package com.bbidoleMarket.bbidoleMarket.api.post.service;
 
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
-import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.image.enums.ImageFolder;
 import com.bbidoleMarket.bbidoleMarket.api.image.service.UploadImageService;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PageResDto;
@@ -73,15 +72,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostSimpleDto> findByUserId(Long userId) {
         List<Post> posts = postRepository.findByUserId(userId);
-        return posts.stream().map(post -> {
-            PostSimpleDto postSimpleDto = new PostSimpleDto();
-            postSimpleDto.setId(post.getId());
-            postSimpleDto.setTitle(post.getTitle());
-            postSimpleDto.setPrice(post.getPrice());
-            postSimpleDto.setImageUrl(post.getImageUrl());
-
-            return postSimpleDto;
-        }).toList();
+        return posts.stream().map(PostSimpleDto::fromPost).toList();
     }
 
     // TODO User Entity의 List<Post> 찾는거하고 Post Entity에서 찾는거 중에 어떤게 빠른지 검증 필요
