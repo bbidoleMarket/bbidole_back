@@ -12,12 +12,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ReviewResDto {
 
+    private Long reviewId;
     private String writerNickname;
     private String content;
     private int rating;
 
     public static ReviewResDto fromReview(Review review) {
         ReviewResDto dto = new ReviewResDto();
+        dto.setReviewId(review.getId());
         dto.setWriterNickname(review.getReviewer().getNickname());
         dto.setContent(review.getContent());
         dto.setRating(review.getRating());
