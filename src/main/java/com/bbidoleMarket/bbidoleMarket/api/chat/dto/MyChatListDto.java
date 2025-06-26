@@ -2,6 +2,8 @@ package com.bbidoleMarket.bbidoleMarket.api.chat.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter @Setter @ToString
 @NoArgsConstructor
 public class MyChatListDto {
@@ -14,4 +16,6 @@ public class MyChatListDto {
     private String buyerName;
     private Long othersId;
     private boolean isCompleted;
+    private String lastMessage;
+    private LocalDateTime lastMessageSendAt;
 }

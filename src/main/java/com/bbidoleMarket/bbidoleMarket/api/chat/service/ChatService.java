@@ -97,6 +97,11 @@ public class ChatService {
             myChatListDto.setOthersId(chatRoom.getSeller().getId());
         } else
             myChatListDto.setOthersId(chatRoom.getBuyer().getId());
+        ChatMessage lastMessage = chatMessageRepository.findTopByChatRoomIdOrderBySendAtDesc(chatRoom.getId());
+        if (lastMessage != null) {
+            myChatListDto.setLastMessage(lastMessage.getContent());
+            myChatListDto.setLastMessageSendAt(lastMessage.getSendAt());
+        }
         return myChatListDto;
     }
 
