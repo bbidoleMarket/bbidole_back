@@ -20,14 +20,17 @@ import org.springframework.web.multipart.MultipartFile;
 public class MyPageController {
     private final MyPageService myPageService;
 
-    //이름
-    @GetMapping("/name")
-    public ResponseEntity<ApiResponse<MyPageResDto>> userName(@RequestParam String email){ // @AuthenticationPrincipal
+    //프로필이미지,이름
+    @GetMapping("/info-update")
+    public ResponseEntity<ApiResponse<MyPageResDto>> userInfo(@RequestParam String email){ // @AuthenticationPrincipal
         // Long userId = userDetails.getUser().getId(); // 로그인한 사용자 ID
         // myPageService.userName(userId);
-        MyPageResDto dto = myPageService.userName(email);
+        MyPageResDto dto = myPageService.userProfile(email);
         return ApiResponse.success(SuccessStatus.SEND_HEALTH_SUCCESS,dto);
     }
+
+
+
 
     //회원 정보 수정
 //    @PutMapping("/update")

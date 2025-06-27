@@ -25,18 +25,17 @@ public class MyPageService {
     private final MyPageRepository myPageRepository;
     private final UploadImageService uploadImageService;
 
-    //이름 출력
-    public MyPageResDto userName(String email){
+    //이름,프로필이미지 출력
+    public MyPageResDto userProfile(String email){
         //이메일로 사용자 찾기 변경예정
         User user = myPageRepository.findByEmail(email)
                 .orElseThrow(()->new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
-        //토큰에서 추출한 id넘겨 받으면 검증
-        //User user = myPageRepository.findByName(name)
-        //        .orElseThrow(new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
         MyPageResDto myPageResDto = new MyPageResDto();
+        myPageResDto.setProfileImage(user.getProfileImage());
         myPageResDto.setName(user.getName());
         return myPageResDto;
     }
+
     //회원 정보 수정
     public void modifyMyPage(MyPageReqDto myPageReqDto){ //Long userId
         //유효성 확인

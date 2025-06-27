@@ -9,4 +9,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MyPageResDto {
     private String name;
+    private String profileImage;
 }
