@@ -78,6 +78,9 @@ public class ChatService {
         if (!id.equals(chatRoom.getSeller().getId())) {
             throw new BadRequestException(ErrorStatus.YOU_ARE_NOT_SELLER.getMessage());
         }
+        Post post = chatRoom.getPost();
+        post.sold();
+        postRepository.save(post);
         chatRoom.completeChat();
         chatRepository.save(chatRoom);
     }
