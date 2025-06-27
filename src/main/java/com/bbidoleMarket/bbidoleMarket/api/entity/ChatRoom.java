@@ -45,6 +45,9 @@ public class ChatRoom {
     @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
     private User seller;
 
+    @Column(name = "is_reviewed")
+    private Boolean isReviewed;
+
     @Builder
     public static ChatRoom createChatRoom(Post post, User buyer, User seller) {
         ChatRoom chatRoom = new ChatRoom();

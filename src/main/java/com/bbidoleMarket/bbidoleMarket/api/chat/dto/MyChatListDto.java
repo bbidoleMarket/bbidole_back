@@ -18,4 +18,5 @@ public class MyChatListDto {
     private boolean isCompleted;
     private String lastMessage;
     private LocalDateTime lastMessageSendAt;
+    private boolean isReviewed;
 }
