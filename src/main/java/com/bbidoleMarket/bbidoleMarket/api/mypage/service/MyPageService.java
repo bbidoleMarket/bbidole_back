@@ -46,7 +46,7 @@ public class MyPageService {
 
         //토큰에서 추출한 id넘겨 받으면 검증
         User user = myPageRepository.findById(userId)
-                .orElseThrow(new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+                .orElseThrow(() -> new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
         //데이터 형식 검증(비번,이메일)
         if(!myPageReqDto.getNickname().matches("^.{2,30}$")) throw new BadRequestException("올바른 닉네임 형식이 아닙니다.");
         if (!myPageReqDto.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$]).{8,15}$")) throw new BadRequestException("올바른 비밀번호 형식이 아닙니다.");
@@ -57,10 +57,10 @@ public class MyPageService {
 
     }
     //프로필 사진 수정
-    public void modifyProfileImage(Long userId, MyPageReqDto myPageReqDto, MultipartFile image) { //Long userId
+    public void modifyProfileImage(Long userId, MultipartFile image) { //Long userId
         //토큰에서 추출한 id넘겨 받으면 검증
         User user = myPageRepository.findById(userId)
-                .orElseThrow(new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+                .orElseThrow(() -> new BadRequestException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
 
         String profileImage;
         try {
