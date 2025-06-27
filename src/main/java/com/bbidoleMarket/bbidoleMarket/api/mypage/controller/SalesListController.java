@@ -21,8 +21,11 @@ public class SalesListController {
     @GetMapping("/me/latest")//토큰 검증 추가 시 id제거
     public ResponseEntity<ApiResponse<PageResDto<SalesListResDto>>> getLatestList(@RequestParam int page, @RequestParam int pageSize, @AuthenticationPrincipal String id){
         //토큰에서 로그인한 사용자의 id 추출 추가 예정
+        System.out.println("getLatestList");
+
         Long userId = Long.parseLong(id);
         PageResDto<SalesListResDto> result = salesListService.getLatestSales(userId, page, pageSize);
+        System.out.println("getLatestList2222");
         return ApiResponse.success(SuccessStatus.SEND_HEALTH_SUCCESS,result);
     }
 

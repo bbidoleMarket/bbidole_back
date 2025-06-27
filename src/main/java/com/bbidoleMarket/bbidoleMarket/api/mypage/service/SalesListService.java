@@ -26,10 +26,13 @@ public class SalesListService {
     @Transactional(readOnly = true)
     public PageResDto<SalesListResDto> getLatestSales(Long userId, Integer page, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize);
+        System.out.println(111);
         //판매 중인 글만 페이징 조회
         Page<ChatRoom> chatsOnSale = chatListRepository.findBySellerIdOrderByCreatedAtDesc(userId,pageRequest);
+        System.out.println(222);
         //DTO로 변환
         Page<SalesListResDto> salesListResDto = chatsOnSale.map(chat -> convertEntityToDto(chat.getPost()));
+        System.out.println(333);
         return new PageResDto<>(salesListResDto);
     }
     //판매 중
