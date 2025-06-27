@@ -31,7 +31,6 @@ public class MyPageController {
 
 
 
-
     //회원 정보 수정
 //    @PutMapping("/update")
 //    public ResponseEntity<Boolean> modifyMyPage(@RequestBody MyPageReqDto myPageReqDto) {
