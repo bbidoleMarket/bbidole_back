@@ -18,6 +18,7 @@ public class PostDetailResDto {
     private int price;
     private String description;
     private String imageUrl;
+    private boolean isSold;
 
     private long writerId;
     private String writerNickname;
@@ -32,6 +33,8 @@ public class PostDetailResDto {
         postDetailResDto.setPrice(post.getPrice());
         postDetailResDto.setDescription(post.getDescription());
         postDetailResDto.setImageUrl(post.getImageUrl());
+        postDetailResDto.setSold(post.getIsSold());
+
         postDetailResDto.setWriterId(writer.getId());
         postDetailResDto.setWriterNickname(writer.getNickname());
         postDetailResDto.setWriterImageUrl(writer.getProfileImage());
