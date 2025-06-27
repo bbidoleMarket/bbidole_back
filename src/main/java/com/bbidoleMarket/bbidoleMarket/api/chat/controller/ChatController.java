@@ -50,8 +50,14 @@ public class ChatController {
     }
 
     @PatchMapping("/sold")
-    public ResponseEntity<ApiResponse<Void>> setSold(@RequestParam Long id){
-        chatService.setSold(id);
+    public ResponseEntity<ApiResponse<Void>> setSold(@AuthenticationPrincipal String strUserId, @RequestParam Long chatId){
+        Long userId = null;
+        try {
+            userId = Long.parseLong(strUserId);
+        } catch (NumberFormatException e) {
+            System.out.println("숫자로 변환할 수 없습니다.");
+        }
+        chatService.setSold(userId, chatId);
         return ApiResponse.success_only(SuccessStatus.SOLD_OUT_SUCCESS);
     }
 

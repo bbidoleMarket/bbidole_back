@@ -12,6 +12,7 @@ import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +61,14 @@ public class ChatService {
         for (ChatRoom chatRoom : chatRooms) {
             myChatListDtos.add(convertToMyChatListDto(chatRoom, userId));
         }
+        // 최신순 정렬
+        myChatListDtos.sort(
+                Comparator.comparing(
+                        MyChatListDto::getLastMessageSendAt,
+                        Comparator.nullsLast(Comparator.reverseOrder())
+                )
+        );
+
         return myChatListDtos;
     }
 
@@ -72,10 +81,10 @@ public class ChatService {
         return chatMessageResDtos;
     }
 
-    public void setSold(Long id) {
-        ChatRoom chatRoom = chatRepository.findById(id).orElseThrow(
+    public void setSold(Long userId, Long chatId) {
+        ChatRoom chatRoom = chatRepository.findById(chatId).orElseThrow(
             () -> new NotFoundException(ErrorStatus.CHAT_NOT_FOUND_EXCEPTION.getMessage()));
-        if (!id.equals(chatRoom.getSeller().getId())) {
+        if (!userId.equals(chatRoom.getSeller().getId())) {
             throw new BadRequestException(ErrorStatus.YOU_ARE_NOT_SELLER.getMessage());
         }
         Post post = chatRoom.getPost();
