@@ -27,7 +27,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/login", "api/posts","api/posts/search","/api/auth/signup", "/api/auth/check-email", "/api/auth/check-nickname", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-config", "/api-doc").permitAll()
+                        .requestMatchers("/api/auth/login", "api/posts","api/posts/search","/api/auth/signup", "/api/auth/check-email", "/api/auth/check-nickname", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-config", "/api-doc", "/ws/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login.disable())
@@ -48,8 +48,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
             "http://localhost:5173"
         ));  // 프론트엔드 서버 Origin 명시
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));  // 허용할 HTTP 메서드
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));  // 허용할 헤더
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));  // 허용할 HTTP 메서드
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Refresh-Token"));  // 허용할 헤더
         configuration.setAllowCredentials(true);  // 쿠키 및 인증 정보 허용
         configuration.setMaxAge(3600L);  // 1시간 동안 preflight 요청 캐싱
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

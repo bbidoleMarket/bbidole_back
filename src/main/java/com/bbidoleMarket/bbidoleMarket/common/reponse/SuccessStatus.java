@@ -28,7 +28,8 @@ public enum SuccessStatus {
     CREATE_POST_SUCCESS(HttpStatus.CREATED, "게시글 등록 성공"),
     GET_POST_LIST_SUCCESS(HttpStatus.OK, "물품 목록 조회 성공"),
     SEARCH_PRODUCT_SUCCESS(HttpStatus.OK, "물품 검색 성공"),
-
+    SEND_USER_UPDATE_SUCCESS(HttpStatus.OK, "회원 정보 수정 성공"),
+    SEND_PROFILE_IMAGE_UPDATE_SUCCESS(HttpStatus.OK, "프로필 사진 변경 성공"),
     GET_CHAT_ROOM_SUCCESS(HttpStatus.OK, "채팅방 생성 or 불러오기 성공"),
     GET_CHAT_LIST_SUCCESS(HttpStatus.OK, "내 채팅방 목록 조회 성공"),
     GET_CHAT_MSG_SUCCESS(HttpStatus.OK, "채팅방 메시지 조회 성공"),

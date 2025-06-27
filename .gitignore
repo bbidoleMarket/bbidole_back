@@ -35,9 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
-application.properties
-titanium-vim-463401-s7-198e16ffe692.json
-.DS_Store
 
 # 기타
 HELP.md
@@ -68,4 +65,7 @@ coverage/
 *.seed
 
 #GCP 설정 파일
+application.properties
 titanium-vim-463401-s7-198e16ffe692.json
+src/main/resources/*.json
+src/main/resources/

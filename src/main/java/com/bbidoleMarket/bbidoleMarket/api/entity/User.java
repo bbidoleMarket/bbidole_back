@@ -80,9 +80,9 @@ public class User {
         createdAt = LocalDateTime.now();
     }
 
-    public void updatePassword(String password) {
+    public void updatePassword(String password, PasswordEncoder passwordEncoder) {
         // TODO password 형식 검사하기
-        this.password = password;
+        this.password = passwordEncoder.encode(password);
     }
 
     public void updateNickname(String nickname) {

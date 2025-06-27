@@ -16,17 +16,18 @@ import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ChatService {
+
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
@@ -34,22 +35,23 @@ public class ChatService {
 
     public MyChatListDto startChatRoom(ChatRoomReqDto chatRoomReqDto, Long userId) {
         Post post = postRepository.findById(chatRoomReqDto.getPostId()).orElseThrow(
-                () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
+            () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
 
         User seller = post.getUser();
 
         ChatRoom chatRoom = chatRepository.findByPostIdAndBuyerIdAndSellerId(
-                post.getId(), userId, seller.getId());
+            post.getId(), userId, seller.getId());
 
-        if (chatRoom != null)
+        if (chatRoom != null) {
             return convertToMyChatListDto(chatRoom, userId);
+        }
 
-        if(seller.getId().equals(userId)){
+        if (seller.getId().equals(userId)) {
             throw new BadRequestException(ErrorStatus.SELLER_EQUAL_BUY.getMessage());
         }
 
         User buyer = userRepository.findById(userId).orElseThrow(
-                () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+            () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
 
         chatRoom = ChatRoom.createChatRoom(post, buyer, seller);
         chatRepository.save(chatRoom);
@@ -75,7 +77,11 @@ public class ChatService {
     }
 
     public void setSold(Long id) {
-        ChatRoom chatRoom = chatRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorStatus.CHAT_NOT_FOUND_EXCEPTION.getMessage()));
+        ChatRoom chatRoom = chatRepository.findById(id).orElseThrow(
+            () -> new NotFoundException(ErrorStatus.CHAT_NOT_FOUND_EXCEPTION.getMessage()));
+        if (!id.equals(chatRoom.getSeller().getId())) {
+            throw new BadRequestException(ErrorStatus.YOU_ARE_NOT_SELLER.getMessage());
+        }
         chatRoom.completeChat();
         chatRepository.save(chatRoom);
     }
@@ -92,8 +98,16 @@ public class ChatService {
         myChatListDto.setCompleted(chatRoom.getIsCompleted());
         if (chatRoom.getBuyer().getId().equals(userId)) {
             myChatListDto.setOthersId(chatRoom.getSeller().getId());
-        } else
+        } else {
             myChatListDto.setOthersId(chatRoom.getBuyer().getId());
+        }
+
+        ChatMessage lastMessage = chatMessageRepository.findTopByChatRoomIdOrderBySendAtDesc(
+            chatRoom.getId());
+        if (lastMessage != null) {
+            myChatListDto.setLastMessage(lastMessage.getContent());
+            myChatListDto.setLastMessageSendAt(lastMessage.getSendAt());
+        }
         return myChatListDto;
     }
 
@@ -108,10 +122,10 @@ public class ChatService {
 
     public ChatMessage convertToMessageEntity(ChatMessageReqDto chatMessageReqDto) {
         ChatRoom chatRoom = chatRepository.findById(chatMessageReqDto.getChatId()).orElseThrow(
-                () -> new NotFoundException(ErrorStatus.CHAT_NOT_FOUND_EXCEPTION.getMessage())
+            () -> new NotFoundException(ErrorStatus.CHAT_NOT_FOUND_EXCEPTION.getMessage())
         );
         User sender = userRepository.findById(chatMessageReqDto.getSenderId()).orElseThrow(
-                () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage())
+            () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage())
         );
         return ChatMessage.createChatMessage(chatMessageReqDto.getContent(), chatRoom, sender);
     }
