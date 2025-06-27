@@ -13,4 +13,5 @@ public class SalesListResDto {
     private String imageUrl;
     private boolean isSold;
     private LocalDateTime regDate;
+    private Long postId;
 }

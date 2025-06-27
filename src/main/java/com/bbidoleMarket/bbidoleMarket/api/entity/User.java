@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
@@ -79,7 +80,7 @@ public class User {
         createdAt = LocalDateTime.now();
     }
 
-    public void updatePassword(String password,PasswordEncoder passwordEncoder) {
+    public void updatePassword(String password, PasswordEncoder passwordEncoder) {
         // TODO password 형식 검사하기
         this.password = passwordEncoder.encode(password);
     }
