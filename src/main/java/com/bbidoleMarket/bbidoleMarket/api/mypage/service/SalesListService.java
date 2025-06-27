@@ -54,14 +54,7 @@ public class SalesListService {
         Page<Post> onSale = buySellRepository.findByUserIdAndIsSoldOrderByCreatedAtDesc(userId,false,pageRequest);
         //DTO로 변환
         Page<SalesListResDto> salesListResDto = onSale.map(post -> convertEntityToDto(post));
-        return new PageResDto<>(
-                salesListResDto.getContent(),
-                salesListResDto.getNumber(),
-                salesListResDto.getSize(),
-                salesListResDto.getTotalElements(),
-                salesListResDto.getTotalPages(),
-                salesListResDto.isLast()
-        );
+        return new PageResDto<>(salesListResDto);
     }
 //    @Transactional(readOnly = true)
 //    public PageResDto<SalesListResDto> getCompletedSalesList(Long userId, Integer page, Integer pageSize) {
@@ -101,6 +94,7 @@ public class SalesListService {
         salesListResDto.setPrice(post.getPrice());
         salesListResDto.setImageUrl(post.getImageUrl());
         salesListResDto.setRegDate(post.getCreatedAt());
+        salesListResDto.setPostId(post.getId());
         return salesListResDto;
     }
 }

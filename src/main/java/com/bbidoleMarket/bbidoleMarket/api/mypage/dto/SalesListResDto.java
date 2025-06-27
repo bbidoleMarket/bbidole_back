@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SalesListResDto {
+    private Long postId;
     private String title;
     private int price;
     private String imageUrl;

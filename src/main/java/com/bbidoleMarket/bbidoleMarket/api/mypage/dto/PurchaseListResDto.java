@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseListResDto {
-//    private Long postId;
+    private Long postId;
     private String title;
     private int price;
     private String imageUrl;
