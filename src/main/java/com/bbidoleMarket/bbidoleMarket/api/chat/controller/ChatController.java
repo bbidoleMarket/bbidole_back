@@ -3,6 +3,7 @@ package com.bbidoleMarket.bbidoleMarket.api.chat.controller;
 import com.bbidoleMarket.bbidoleMarket.api.chat.dto.ChatMessageResDto;
 import com.bbidoleMarket.bbidoleMarket.api.chat.dto.ChatRoomReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.chat.dto.MyChatListDto;
+import com.bbidoleMarket.bbidoleMarket.api.chat.dto.ReviewReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.chat.service.ChatService;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.SuccessStatus;
@@ -52,5 +53,11 @@ public class ChatController {
     public ResponseEntity<ApiResponse<Void>> setSold(@RequestParam Long id){
         chatService.setSold(id);
         return ApiResponse.success_only(SuccessStatus.SOLD_OUT_SUCCESS);
+    }
+
+    @PostMapping("/review")
+    public ResponseEntity<ApiResponse<Void>> setReview(@RequestBody final ReviewReqDto reviewReqDto){
+        chatService.setReview(reviewReqDto);
+        return ApiResponse.success_only(SuccessStatus.CREATE_REVIEW_SUCCESS);
     }
 }
