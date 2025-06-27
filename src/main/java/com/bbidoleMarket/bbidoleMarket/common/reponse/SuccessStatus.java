@@ -34,6 +34,7 @@ public enum SuccessStatus {
     GET_CHAT_LIST_SUCCESS(HttpStatus.OK, "내 채팅방 목록 조회 성공"),
     GET_CHAT_MSG_SUCCESS(HttpStatus.OK, "채팅방 메시지 조회 성공"),
     SOLD_OUT_SUCCESS(HttpStatus.OK, "판매 완료 설정 성공"),
+
     /**
      * 201
      */

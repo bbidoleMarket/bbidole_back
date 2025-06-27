@@ -69,3 +69,5 @@ application.properties
 titanium-vim-463401-s7-198e16ffe692.json
 src/main/resources/*.json
 src/main/resources/
+
+.DS_Store
