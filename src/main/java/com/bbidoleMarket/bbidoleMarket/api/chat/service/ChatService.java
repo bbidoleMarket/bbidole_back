@@ -99,6 +99,11 @@ public class ChatService {
         User seller = userRepository.findById(reviewReqDto.getSellerId()).orElseThrow( () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
         Review review = Review.createReview(reviewReqDto.getRating(), reviewReqDto.getContent(), buyer, seller);
         reviewRepository.save(review);
+        // 평점 저장
+        List<Review> reviews = reviewRepository.findByRevieweeId(seller.getId());
+        Double totalRating = reviews.stream().mapToDouble(Review::getRating).average().getAsDouble();
+        seller.updateTotalRating(totalRating);
+        userRepository.save(seller);
     }
 
     private MyChatListDto convertToMyChatListDto(ChatRoom chatRoom, Long userId) {
