@@ -1,17 +1,12 @@
 package com.bbidoleMarket.bbidoleMarket.api.chat.service;
 
-import com.bbidoleMarket.bbidoleMarket.api.chat.dto.ChatMessageReqDto;
-import com.bbidoleMarket.bbidoleMarket.api.chat.dto.ChatMessageResDto;
-import com.bbidoleMarket.bbidoleMarket.api.chat.dto.ChatRoomReqDto;
-import com.bbidoleMarket.bbidoleMarket.api.chat.dto.MyChatListDto;
+import com.bbidoleMarket.bbidoleMarket.api.chat.dto.*;
 import com.bbidoleMarket.bbidoleMarket.api.chat.repository.ChatMessageRepository;
 import com.bbidoleMarket.bbidoleMarket.api.chat.repository.ChatRepository;
-import com.bbidoleMarket.bbidoleMarket.api.entity.ChatMessage;
-import com.bbidoleMarket.bbidoleMarket.api.entity.ChatRoom;
-import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
-import com.bbidoleMarket.bbidoleMarket.api.entity.User;
+import com.bbidoleMarket.bbidoleMarket.api.entity.*;
 import com.bbidoleMarket.bbidoleMarket.api.login.repository.UserRepository;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.PostRepository;
+import com.bbidoleMarket.bbidoleMarket.api.post.repository.ReviewRepository;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
@@ -32,6 +27,7 @@ public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final ReviewRepository reviewRepository;
 
     public MyChatListDto startChatRoom(ChatRoomReqDto chatRoomReqDto, Long userId) {
         Post post = postRepository.findById(chatRoomReqDto.getPostId()).orElseThrow(
@@ -86,15 +82,22 @@ public class ChatService {
         chatRepository.save(chatRoom);
     }
 
+    public void setReview(ReviewReqDto reviewReqDto) {
+        User buyer = userRepository.findById(reviewReqDto.getBuyerId()).orElseThrow( () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+        User seller = userRepository.findById(reviewReqDto.getSellerId()).orElseThrow( () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
+        Review review = Review.createReview(reviewReqDto.getRating(), reviewReqDto.getContent(), buyer, seller);
+        reviewRepository.save(review);
+    }
+
     private MyChatListDto convertToMyChatListDto(ChatRoom chatRoom, Long userId) {
         MyChatListDto myChatListDto = new MyChatListDto();
         myChatListDto.setId(chatRoom.getId());
         myChatListDto.setProductId(chatRoom.getPost().getId());
         myChatListDto.setProductName(chatRoom.getPost().getTitle());
         myChatListDto.setSellerId(chatRoom.getSeller().getId());
-        myChatListDto.setSellerName(chatRoom.getSeller().getName());
+        myChatListDto.setSellerName(chatRoom.getSeller().getNickname());
         myChatListDto.setBuyerId(chatRoom.getBuyer().getId());
-        myChatListDto.setBuyerName(chatRoom.getBuyer().getName());
+        myChatListDto.setBuyerName(chatRoom.getBuyer().getNickname());
         myChatListDto.setCompleted(chatRoom.getIsCompleted());
         if (chatRoom.getBuyer().getId().equals(userId)) {
             myChatListDto.setOthersId(chatRoom.getSeller().getId());
