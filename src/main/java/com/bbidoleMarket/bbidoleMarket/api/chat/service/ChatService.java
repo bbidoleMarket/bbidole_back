@@ -100,13 +100,17 @@ public class ChatService {
         User seller = userRepository.findById(reviewReqDto.getSellerId()).orElseThrow( () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
         Review review = Review.createReview(reviewReqDto.getRating(), reviewReqDto.getContent(), buyer, seller);
         reviewRepository.save(review);
+
         // 평점 저장
         List<Review> reviews = reviewRepository.findByRevieweeId(seller.getId());
         Double totalRating = reviews.stream().mapToDouble(Review::getRating).average().getAsDouble();
-        // 소숫점 첫째자리까지 반올림
-        Double rounded = Math.round(totalRating * 10) / 10.0;
+        Double rounded = Math.round(totalRating * 10) / 10.0; // 소숫점 첫째자리까지 반올림
         seller.updateTotalRating(rounded);
         userRepository.save(seller);
+
+        ChatRoom chatRoom = chatRepository.findById(reviewReqDto.getChatId()).orElseThrow( () -> new NotFoundException(ErrorStatus.CHAT_NOT_FOUND_EXCEPTION.getMessage()));
+        chatRoom.setIsReviewed(true);
+        chatRepository.save(chatRoom);
     }
 
     private ChatRoomResDto convertToChatRoomResDto(ChatRoom chatRoom, Long userId) {
@@ -124,6 +128,9 @@ public class ChatService {
             chatRoomResDto.setOthersId(chatRoom.getBuyer().getId());
         chatRoomResDto.setBuyer(chatRoom.getIsCompleted() == true && chatRoom.getBuyer().getId().equals(userId));
         chatRoomResDto.setCompleted(chatRoom.getPost().getIsSold());
+        if (chatRoom.getIsReviewed() != null)
+            chatRoomResDto.setReviewed(chatRoom.getIsReviewed());
+        else chatRoomResDto.setReviewed(false);
 
         return chatRoomResDto;
     }
@@ -149,7 +156,9 @@ public class ChatService {
             myChatListDto.setLastMessage(lastMessage.getContent());
             myChatListDto.setLastMessageSendAt(lastMessage.getSendAt());
         }
-        myChatListDto.setReviewed(chatRoom.getIsReviewed());
+        if (chatRoom.getIsReviewed() != null)
+            myChatListDto.setReviewed(chatRoom.getIsReviewed());
+        else myChatListDto.setReviewed(false);
         return myChatListDto;
     }
 

@@ -12,4 +12,5 @@ public class ReviewReqDto {
     private String content;
     private Long sellerId;
     private Long buyerId;
+    private Long chatId;
 }

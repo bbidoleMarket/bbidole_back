@@ -18,5 +18,5 @@ public class ChatRoomResDto {
     private Long othersId;
     private boolean isBuyer;
     private boolean isCompleted;
-//    private boolean isReviewed;
+    private boolean isReviewed;
 }

@@ -11,14 +11,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Entity
 @Table(name = "chat_list")
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatRoom {
 
@@ -45,8 +43,8 @@ public class ChatRoom {
     @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
     private User seller;
 
-    @Column(name = "is_reviewed")
-    private Boolean isReviewed;
+    @Column(name = "is_reviewed", columnDefinition = "BOOLEAN DEFAULT false")
+    private Boolean isReviewed = false;
 
     @Builder
     public static ChatRoom createChatRoom(Post post, User buyer, User seller) {
@@ -70,5 +68,4 @@ public class ChatRoom {
     public void restartChat() {
         isCompleted = false;
     }
-
 }
