@@ -35,13 +35,17 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{postId}")
     @Operation(summary = "게시물 상세 내용 조회입니다.")
-    public ResponseEntity<ApiResponse<PostDetailResDto>> findById(@PathVariable Long id) {
-        return ApiResponse.success(SuccessStatus.SEARCH_POST_SUCCESS, postService.findById(id));
+    public ResponseEntity<ApiResponse<PostDetailResDto>> findById(
+        @PathVariable Long postId,
+        @AuthenticationPrincipal String jwtId
+    ) {
+        return ApiResponse.success(SuccessStatus.SEARCH_POST_SUCCESS,
+            postService.findById(postId, jwtId));
     }
 
-    // HTTP(Header:Content-Type) 설정 : consumes, produces
+    // HTTP (Header:Content-Type) 설정: consumes, produces
     @PutMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "게시물 수정 입니다.")
     public ResponseEntity<ApiResponse<Void>> update(

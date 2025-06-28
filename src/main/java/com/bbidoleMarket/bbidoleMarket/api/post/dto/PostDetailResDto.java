@@ -20,12 +20,14 @@ public class PostDetailResDto {
     private String imageUrl;
     private boolean isSold;
 
+    private boolean isWriter;
+
     private long writerId;
     private String writerNickname;
     private String writerImageUrl;
     private Double writerTotalRating;
 
-    public static PostDetailResDto fromPost(Post post) {
+    public static PostDetailResDto fromPost(Post post, boolean isWriter) {
         User writer = post.getUser();
         PostDetailResDto postDetailResDto = new PostDetailResDto();
         postDetailResDto.setPostId(post.getId());
@@ -34,6 +36,8 @@ public class PostDetailResDto {
         postDetailResDto.setDescription(post.getDescription());
         postDetailResDto.setImageUrl(post.getImageUrl());
         postDetailResDto.setSold(post.getIsSold());
+
+        postDetailResDto.isWriter = isWriter;
 
         postDetailResDto.setWriterId(writer.getId());
         postDetailResDto.setWriterNickname(writer.getNickname());
