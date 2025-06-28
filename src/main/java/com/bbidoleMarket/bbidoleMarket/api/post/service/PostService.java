@@ -34,11 +34,17 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostDetailResDto findById(Long postId, String jwtId) {
-        Long userId = Long.parseLong(jwtId);
         Post post = postRepository.findById(postId)
             .orElseThrow(
                 () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
-        return PostDetailResDto.fromPost(post, isWriter(post.getUser().getId(), userId));
+
+        try {
+            Long userId = Long.parseLong(jwtId);
+            return PostDetailResDto.fromPost(post, isWriter(post.getUser().getId(), userId));
+        } catch (NumberFormatException ne) {
+            log.info(ne.toString());
+            return PostDetailResDto.fromPost(post, false);
+        }
     }
 
     public void update(PostUpdateReqDto dto, MultipartFile image, String id) {
