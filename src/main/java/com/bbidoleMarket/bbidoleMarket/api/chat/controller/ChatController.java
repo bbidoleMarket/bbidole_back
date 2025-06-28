@@ -1,9 +1,6 @@
 package com.bbidoleMarket.bbidoleMarket.api.chat.controller;
 
-import com.bbidoleMarket.bbidoleMarket.api.chat.dto.ChatMessageResDto;
-import com.bbidoleMarket.bbidoleMarket.api.chat.dto.ChatRoomReqDto;
-import com.bbidoleMarket.bbidoleMarket.api.chat.dto.MyChatListDto;
-import com.bbidoleMarket.bbidoleMarket.api.chat.dto.ReviewReqDto;
+import com.bbidoleMarket.bbidoleMarket.api.chat.dto.*;
 import com.bbidoleMarket.bbidoleMarket.api.chat.service.ChatService;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.SuccessStatus;
@@ -34,7 +31,7 @@ public class ChatController {
     }
 
     @PostMapping("/start")
-    public ResponseEntity<ApiResponse<MyChatListDto>> startChat(@RequestBody final ChatRoomReqDto chatRoomReqDto, @AuthenticationPrincipal String strUserId) {
+    public ResponseEntity<ApiResponse<ChatRoomResDto>> startChat(@RequestBody final ChatRoomReqDto chatRoomReqDto, @AuthenticationPrincipal String strUserId) {
         Long userId = null;
         try {
             userId = Long.parseLong(strUserId);

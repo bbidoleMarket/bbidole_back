@@ -75,6 +75,19 @@ public class WebSocketService {
         }
     }
 
+    public void broadcastSoldEvent(Long chatId) {
+       ChatSocketDto room = findChatRoomById(chatId);
+       if (room != null) {
+           for (WebSocketSession session : room.getSessions()) {
+               try {
+                   session.sendMessage(new TextMessage("{\"type\":\"sold\"}"));
+               } catch (IOException e) {
+                   log.error(e.getMessage());
+               }
+           }
+       }
+    }
+
     // 채팅방에서 퇴장한 세션 제거
     public void removeSessionAndHandleExit(Long chatId, WebSocketSession session) {
         ChatSocketDto room = findChatRoomById(chatId); // 채팅방 정보 가져오기

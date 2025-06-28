@@ -29,8 +29,9 @@ public class ChatService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final ReviewRepository reviewRepository;
+    private final WebSocketService webSocketService;
 
-    public MyChatListDto startChatRoom(ChatRoomReqDto chatRoomReqDto, Long userId) {
+    public ChatRoomResDto startChatRoom(ChatRoomReqDto chatRoomReqDto, Long userId) {
         Post post = postRepository.findById(chatRoomReqDto.getPostId()).orElseThrow(
             () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
 
@@ -39,20 +40,18 @@ public class ChatService {
         ChatRoom chatRoom = chatRepository.findByPostIdAndBuyerIdAndSellerId(
             post.getId(), userId, seller.getId());
 
-        if (chatRoom != null) {
-            return convertToMyChatListDto(chatRoom, userId);
-        }
+        if (chatRoom != null)
+            return convertToChatRoomResDto(chatRoom, userId);
 
-        if (seller.getId().equals(userId)) {
+        if (seller.getId().equals(userId))
             throw new BadRequestException(ErrorStatus.SELLER_EQUAL_BUY.getMessage());
-        }
 
         User buyer = userRepository.findById(userId).orElseThrow(
             () -> new NotFoundException(ErrorStatus.USER_NOT_FOUND_EXCEPTION.getMessage()));
 
         chatRoom = ChatRoom.createChatRoom(post, buyer, seller);
         chatRepository.save(chatRoom);
-        return convertToMyChatListDto(chatRoom, userId);
+        return convertToChatRoomResDto(chatRoom, userId);
     }
 
     public List<MyChatListDto> getMyChatlist(Long userId) {
@@ -92,6 +91,8 @@ public class ChatService {
         postRepository.save(post);
         chatRoom.completeChat();
         chatRepository.save(chatRoom);
+
+        webSocketService.broadcastSoldEvent(chatId);
     }
 
     public void setReview(ReviewReqDto reviewReqDto) {
@@ -102,8 +103,29 @@ public class ChatService {
         // 평점 저장
         List<Review> reviews = reviewRepository.findByRevieweeId(seller.getId());
         Double totalRating = reviews.stream().mapToDouble(Review::getRating).average().getAsDouble();
-        seller.updateTotalRating(totalRating);
+        // 소숫점 첫째자리까지 반올림
+        Double rounded = Math.round(totalRating * 10) / 10.0;
+        seller.updateTotalRating(rounded);
         userRepository.save(seller);
+    }
+
+    private ChatRoomResDto convertToChatRoomResDto(ChatRoom chatRoom, Long userId) {
+        ChatRoomResDto chatRoomResDto = new ChatRoomResDto();
+        chatRoomResDto.setId(chatRoom.getId());
+        chatRoomResDto.setProductId(chatRoom.getPost().getId());
+        chatRoomResDto.setProductName(chatRoom.getPost().getTitle());
+        chatRoomResDto.setBuyerId(chatRoom.getBuyer().getId());
+        chatRoomResDto.setBuyerName(chatRoom.getBuyer().getName());
+        chatRoomResDto.setSellerId(chatRoom.getSeller().getId());
+        chatRoomResDto.setSellerName(chatRoom.getSeller().getName());
+        if (chatRoom.getBuyer().getId().equals(userId))
+            chatRoomResDto.setOthersId(chatRoom.getSeller().getId());
+        else
+            chatRoomResDto.setOthersId(chatRoom.getBuyer().getId());
+        chatRoomResDto.setBuyer(chatRoom.getIsCompleted() == true && chatRoom.getBuyer().getId().equals(userId));
+        chatRoomResDto.setCompleted(chatRoom.getPost().getIsSold());
+
+        return chatRoomResDto;
     }
 
     private MyChatListDto convertToMyChatListDto(ChatRoom chatRoom, Long userId) {
@@ -115,13 +137,12 @@ public class ChatService {
         myChatListDto.setSellerName(chatRoom.getSeller().getNickname());
         myChatListDto.setBuyerId(chatRoom.getBuyer().getId());
         myChatListDto.setBuyerName(chatRoom.getBuyer().getNickname());
-        myChatListDto.setCompleted(chatRoom.getIsCompleted());
-        if (chatRoom.getBuyer().getId().equals(userId)) {
+        myChatListDto.setCompleted(chatRoom.getPost().getIsSold());
+        if (chatRoom.getBuyer().getId().equals(userId))
             myChatListDto.setOthersId(chatRoom.getSeller().getId());
-        } else {
+        else
             myChatListDto.setOthersId(chatRoom.getBuyer().getId());
-        }
-
+        myChatListDto.setBuyer(chatRoom.getIsCompleted() == true && chatRoom.getBuyer().getId().equals(userId));
         ChatMessage lastMessage = chatMessageRepository.findTopByChatRoomIdOrderBySendAtDesc(
             chatRoom.getId());
         if (lastMessage != null) {
