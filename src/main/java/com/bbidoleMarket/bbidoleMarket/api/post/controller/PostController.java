@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@Tag(name = "", description = "")
+@Tag(name = "게시물", description = "게시물에 관련된 API")
 @Slf4j
 @RequestMapping("/api/post")
 @RequiredArgsConstructor
