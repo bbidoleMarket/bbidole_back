@@ -33,11 +33,12 @@ public class PostService {
     private final UploadImageService uploadImageService;
 
     @Transactional(readOnly = true)
-    public PostDetailResDto findById(Long id) {
-        Post post = postRepository.findById(id)
+    public PostDetailResDto findById(Long postId, String jwtId) {
+        Long userId = Long.parseLong(jwtId);
+        Post post = postRepository.findById(postId)
             .orElseThrow(
                 () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
-        return PostDetailResDto.fromPost(post);
+        return PostDetailResDto.fromPost(post, isWriter(post.getUser().getId(), userId));
     }
 
     public void update(PostUpdateReqDto dto, MultipartFile image, String id) {
@@ -47,12 +48,11 @@ public class PostService {
                 () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
 
         // 작성자와 수정자가 동일한지 체크
-        if (!post.getUser().getId().equals(userId)) {
+        if (!isWriter(post.getUser().getId(), userId)) {
             throw new UnauthorizedException(
                 ErrorStatus.OTHERS_USER_INFO_NOT_ALLOWED_EXCEPTION.getMessage());
         }
 
-//        if (image.isEmpty()) { // image가 null일 때 NullPointerException 발생
         if (image == null || image.isEmpty()) {
             post.updatePost(dto.getTitle(), dto.getPrice(), dto.getDescription());
             return;
@@ -84,5 +84,9 @@ public class PostService {
         Page<Post> postPage = postRepository.findByUserId(userId, pageable);
         Page<PostSimpleDto> postSimpleDto = postPage.map(PostSimpleDto::fromPost);
         return new PageResDto<>(postSimpleDto);
+    }
+
+    private boolean isWriter(Long writerId, Long userId) {
+        return writerId.equals(userId);
     }
 }

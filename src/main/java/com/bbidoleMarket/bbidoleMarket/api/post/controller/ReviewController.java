@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "", description = "")
+@Tag(name = "리뷰", description = "사용자에 달린 리뷰에 대한 API")
 @Slf4j
 @RestController
 @RequestMapping("/api/review")
