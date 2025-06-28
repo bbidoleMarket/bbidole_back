@@ -149,6 +149,7 @@ public class ChatService {
             myChatListDto.setLastMessage(lastMessage.getContent());
             myChatListDto.setLastMessageSendAt(lastMessage.getSendAt());
         }
+        myChatListDto.setReviewed(chatRoom.getIsReviewed());
         return myChatListDto;
     }
 
