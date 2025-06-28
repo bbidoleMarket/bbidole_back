@@ -11,7 +11,7 @@ import com.bbidoleMarket.bbidoleMarket.common.reponse.ErrorStatus;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +25,7 @@ import java.util.Objects;
 public class MyPageService {
     private final MyPageRepository myPageRepository;
     private final UploadImageService uploadImageService;
-    private final PasswordEncoder passwordEncoder;
+    //private final PasswordEncoder passwordEncoder;
 
     //이름,프로필이미지 출력
     public MyPageResDto userProfile(String email){
@@ -54,7 +54,8 @@ public class MyPageService {
         if(!Objects.equals(myPageReqDto.getPasswordConfirm(), myPageReqDto.getPassword())) throw new BadRequestException("비밀번호가 일치하지 않습니다.");
 
         user.updateNickname(myPageReqDto.getNickname());
-        user.updatePassword(myPageReqDto.getPassword(),passwordEncoder);
+        user.updatePassword(myPageReqDto.getPassword());
+        //user.updatePassword(myPageReqDto.getPassword(),passwordEncoder);
 
     }
     //프로필 사진 수정
