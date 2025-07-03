@@ -76,4 +76,11 @@ public class UserService {
         sellerDetailResDto.setImageUrl(seller.getProfileImage());
         return sellerDetailResDto;
     }
+
+    @Transactional
+    public void updateUserActive(Long userId, boolean isActive) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다"));
+        user.setIsActive(isActive);
+    }
 }

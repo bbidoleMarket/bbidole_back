@@ -47,12 +47,13 @@ public class LoginController {
         try {
             User user = userService.login(loginReqDto);
 
-            String accessToken = jwtUtil.generateAccessToken(user.getId().toString());
+            String accessToken = jwtUtil.generateAccessToken(user.getId().toString(), user.getRole().getKey());
             String refreshToken = jwtUtil.generateRefreshToken(user.getId().toString());
 
             LoginResDto result = new LoginResDto(
                     accessToken,
-                    refreshToken
+                    refreshToken,
+                    user.getRole()
             );
 
             return ApiResponse.success(SEND_LOGIN_SUCCESS, result);
@@ -110,7 +111,7 @@ public class LoginController {
             User user = userService.findById(Long.parseLong(userId));
 
             // 새로운 토큰들 생성
-            String newAccessToken = jwtUtil.generateAccessToken(user.getId().toString());
+            String newAccessToken = jwtUtil.generateAccessToken(user.getId().toString(), user.getRole().getKey());
             String newRefreshToken = jwtUtil.generateRefreshToken(user.getId().toString());
 
             // 기존 리프레시 토큰을 무효화 (보안상 중요)
@@ -118,7 +119,8 @@ public class LoginController {
 
             LoginResDto result = new LoginResDto(
                     newAccessToken,
-                    newRefreshToken
+                    newRefreshToken,
+                    user.getRole()
             );
 
             return ApiResponse.success(SEND_TOKEN_REFRESH_SUCCESS, result);

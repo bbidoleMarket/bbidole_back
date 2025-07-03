@@ -2,6 +2,8 @@ package com.bbidoleMarket.bbidoleMarket.api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,14 +13,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
@@ -57,6 +58,13 @@ public class User {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role = Role.USER; // 기본값은 일반 사용자
+
 //    @OneToMany(mappedBy = "user")
 //    private List<Post> posts = new ArrayList<>();
 //
@@ -72,7 +80,30 @@ public class User {
         user.password = passwordEncoder.encode(password);
         user.nickname = nickname;
         user.totalRating = -1.0;
+        user.role = Role.USER; // 기본값은 일반 사용자
         return user;
+    }
+
+    // public static User createAdmin(String name, String email, String password, String nickname, PasswordEncoder passwordEncoder) {
+    //     // 관리자 계정 생성
+    //     User admin = new User();
+    //     admin.name = name;
+    //     admin.email = email;
+    //     admin.password = passwordEncoder.encode(password);
+    //     admin.nickname = nickname;
+    //     admin.totalRating = -1.0;
+    //     admin.role = Role.ADMIN; // 관리자 권한
+    //     return admin;
+    // }
+
+    // 관리자 여부 확인 메서드
+    public boolean isAdmin() {
+        return this.role == Role.ADMIN;
+    }
+
+    // 사용자 권한 업데이트 메서드
+    public void updateRole(Role role) {
+        this.role = role;
     }
 
     @PrePersist

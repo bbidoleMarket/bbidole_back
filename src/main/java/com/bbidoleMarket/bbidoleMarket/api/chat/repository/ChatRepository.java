@@ -11,4 +11,6 @@ public interface ChatRepository extends JpaRepository<ChatRoom, Long> {
     List<ChatRoom> findByBuyerIdOrSellerId(Long userId, Long sellerId);
 
     ChatRoom findByPostIdAndBuyerIdAndSellerId(Long postId, Long buyerId, Long sellerId);
+
+    long countByIsCompletedTrue();
 }

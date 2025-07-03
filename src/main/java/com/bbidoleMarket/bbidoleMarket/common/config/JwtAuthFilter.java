@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import io.jsonwebtoken.security.SignatureException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -129,9 +131,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             try {
                 // 토큰 유효성 검증
                 if (jwtUtil.validateToken(jwt, userId)) {
+                    String role = jwtUtil.getRoleFromToken(jwt);
+
+                    // 권한 정보를 GrantedAuthority로 감쌈
+                    List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+
                     // 인증 객체 생성
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userId, null, new ArrayList<>());
+                            userId, null, authorities);
 
                     // 인증 객체에 요청 세부 정보 설정
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

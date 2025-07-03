@@ -75,6 +75,13 @@ public class JwtUtil {
         return createToken(claims, userId, accessTokenValidityInMs);
     }
 
+    public String generateAccessToken(String userId, String role) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("type", "access");
+        claims.put("role", role);
+        return createToken(claims, userId, accessTokenValidityInMs);
+    }
+
     public String generateToken(String userId) {
         return generateAccessToken(userId);
     }
@@ -119,6 +126,14 @@ public class JwtUtil {
 
     public String getUserIdFromToken(String token) {
         return extractUserId(token);
+    }
+
+    public String getEmailFromToken(String token) {
+        return extractUserId(token);
+    }
+
+    public String getRoleFromToken(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     public String extractTokenFromRequest(HttpServletRequest request) {

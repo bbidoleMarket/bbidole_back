@@ -35,7 +35,15 @@ public enum SuccessStatus {
     GET_CHAT_LIST_SUCCESS(HttpStatus.OK, "내 채팅방 목록 조회 성공"),
     GET_CHAT_MSG_SUCCESS(HttpStatus.OK, "채팅방 메시지 조회 성공"),
     SOLD_OUT_SUCCESS(HttpStatus.OK, "판매 완료 설정 성공"),
-
+    TOTAL_SUBS_SUCCESS(HttpStatus.OK, "전체 회원 수 조회 성공"),
+    TOTAL_PRODUCT_SUCCESS(HttpStatus.OK, "전체 물품 개수 조회 성공"),
+    COUNT_ISCOMPLETED_SUCCESS(HttpStatus.OK, "거래 완료 물품 조회 성공"),
+    FIND_ALL_USER_SUCCESS(HttpStatus.OK, "전체 유저 조회 성공"),
+    FIND_ALL_PRODUCT_SUCCESS(HttpStatus.OK, "전체 물품 조회 성공"),
+    UPDATE_USER_ISACTIVE(HttpStatus.OK, "유저 활성 상태 변경 성공"),
+    DELETE_PRODUCT_SUCCESS(HttpStatus.OK, "제품 삭제 성공"),
+    FIND_RECENT_USER_SUCCESS(HttpStatus.OK, "최근 가입 회원 조회 성공"),
+    FIND_RECENT_PRODUCT_SUCCESS(HttpStatus.OK, "최근 등록 상품 조회 성공"),
     /**
      * 201
      */

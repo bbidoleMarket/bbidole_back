@@ -33,6 +33,7 @@ public class SecurityConfig {
                     "/api/auth/signup", "/api/auth/check-email", "/api/auth/check-nickname",
                     "/v3/api-docs/**", "/swagger-ui/**", "/swagger-config", "/api-doc", "/ws/**",
                     "/api/post/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login.disable())
