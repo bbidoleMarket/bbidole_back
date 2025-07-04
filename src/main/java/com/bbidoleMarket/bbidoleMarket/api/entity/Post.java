@@ -43,7 +43,7 @@ public class Post {
     private String description;
 
     @Column(name = "is_sold")
-    private Boolean isSold;
+    private Boolean isSold = false;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -60,7 +60,6 @@ public class Post {
         post.price = price;
         post.imageUrl = imageUrl;
         post.description = description;
-        post.isSold = false;
         post.user = user;
         return post;
     }

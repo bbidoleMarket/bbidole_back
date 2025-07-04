@@ -26,7 +26,7 @@ public class ChatRoom {
     private Long id;
 
     @Column(name = "is_completed")
-    private Boolean isCompleted;
+    private Boolean isCompleted = false;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -49,7 +49,6 @@ public class ChatRoom {
     @Builder
     public static ChatRoom createChatRoom(Post post, User buyer, User seller) {
         ChatRoom chatRoom = new ChatRoom();
-        chatRoom.isCompleted = false;
         chatRoom.post = post;
         chatRoom.buyer = buyer;
         chatRoom.seller = seller;

@@ -2,8 +2,8 @@ package com.bbidoleMarket.bbidoleMarket.api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,8 +13,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
-
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
@@ -50,7 +53,7 @@ public class User {
     private String nickname;
 
     @Column(name = "total_rating")
-    private Double totalRating;
+    private Double totalRating = -1.0;
 
     @Column(name = "profile_image")
     private String profileImage;
@@ -72,14 +75,14 @@ public class User {
 //    private List<Review> reviews = new ArrayList<>();
 
     @Builder
-    public static User createUser(String name, String email, String password, String nickname, PasswordEncoder passwordEncoder) {
+    public static User createUser(String name, String email, String password, String nickname,
+        PasswordEncoder passwordEncoder) {
         // TODO email, password 형식 한번 더 검사하기
         User user = new User();
         user.name = name;
         user.email = email;
         user.password = passwordEncoder.encode(password);
         user.nickname = nickname;
-        user.totalRating = -1.0;
         user.role = Role.USER; // 기본값은 일반 사용자
         return user;
     }
