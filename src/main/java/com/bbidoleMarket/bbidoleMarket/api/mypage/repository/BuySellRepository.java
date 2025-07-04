@@ -11,8 +11,9 @@ import java.util.Optional;
 @Repository
 public interface BuySellRepository extends JpaRepository<Post,Long> {
 
-    //최신순(내림차순)
-    Page<Post> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
-    //판매완료/판매중
-    Page<Post> findByUserIdAndIsSoldOrderByCreatedAtDesc(Long userId,Boolean isSold,Pageable pageable);
+    // 최신순(내림차순) - isDeleted=false 조건 추가
+    Page<Post> findByUserIdAndIsDeletedFalseOrderByCreatedAtDesc(Long userId, Pageable pageable);
+    
+    // 판매완료/판매중 - isDeleted=false 조건 추가
+    Page<Post> findByUserIdAndIsSoldAndIsDeletedFalseOrderByCreatedAtDesc(Long userId, Boolean isSold, Pageable pageable);
 }

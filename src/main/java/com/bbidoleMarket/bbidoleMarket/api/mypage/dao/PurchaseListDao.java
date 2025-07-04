@@ -22,7 +22,7 @@ public class PurchaseListDao {
         select count(*)
         from chat_list c
         join posts p on c.product_id = p.post_id
-        where c.buyer_id = ? AND p.is_sold = 1 AND c.is_completed = 1
+        where c.buyer_id = ? AND p.is_sold = 1 AND c.is_completed = 1 AND p.is_deleted=0
         """;
 
     //데이터 조회 쿼리 -> 현재 페이지에 보여줄 데이터 목록
@@ -30,7 +30,7 @@ public class PurchaseListDao {
             select p.title, p.price, p.post_image_url, p.is_sold, c.created_at, p.post_id
             FROM chat_list c
             JOIN posts p ON c.product_id = p.post_id
-            WHERE c.buyer_id = ? AND p.is_sold = 1 AND c.is_completed=1
+            WHERE c.buyer_id = ? AND p.is_sold = 1 AND c.is_completed=1 AND p.is_deleted=0
             ORDER BY c.created_at DESC
             LIMIT ? OFFSET ?
             """;

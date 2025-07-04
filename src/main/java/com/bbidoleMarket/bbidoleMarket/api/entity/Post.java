@@ -52,6 +52,9 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(nullable = false)
+    private Boolean isDeleted = false;
+
     @Builder
     public static Post createPost
         (String title, int price, String imageUrl, String description, User user) {
@@ -88,5 +91,8 @@ public class Post {
 
     public void unSold() {
         isSold = false;
+    }
+    public void markAsDeleted() {
+        this.isDeleted = true;
     }
 }
