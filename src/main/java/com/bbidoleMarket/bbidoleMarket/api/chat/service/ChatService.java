@@ -108,8 +108,9 @@ public class ChatService {
         seller.updateTotalRating(rounded);
         userRepository.save(seller);
 
-        ChatRoom chatRoom = chatRepository.findById(reviewReqDto.getChatId()).orElseThrow( () -> new NotFoundException(ErrorStatus.CHAT_NOT_FOUND_EXCEPTION.getMessage()));
-        chatRoom.setIsReviewed(true);
+        ChatRoom chatRoom = chatRepository.findById(reviewReqDto.getChatId()).orElseThrow(
+            () -> new NotFoundException(ErrorStatus.CHAT_NOT_FOUND_EXCEPTION.getMessage()));
+        chatRoom.markAsReviewed();
         chatRepository.save(chatRoom);
     }
 
