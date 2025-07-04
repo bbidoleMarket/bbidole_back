@@ -45,15 +45,15 @@ public class Post {
     @Column(name = "is_sold")
     private Boolean isSold = false;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @Column(nullable = false)
-    private Boolean isDeleted = false;
 
     @Builder
     public static Post createPost
@@ -92,7 +92,12 @@ public class Post {
     public void unSold() {
         isSold = false;
     }
+
     public void markAsDeleted() {
         this.isDeleted = true;
+    }
+
+    public void markAsUndeleted() {
+        isDeleted = false;
     }
 }
