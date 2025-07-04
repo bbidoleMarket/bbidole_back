@@ -1,5 +1,6 @@
 package com.bbidoleMarket.bbidoleMarket.api.login.controller;
 
+import com.bbidoleMarket.bbidoleMarket.api.entity.Role;
 import com.bbidoleMarket.bbidoleMarket.api.login.dto.LoginReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.login.dto.LoginResDto;
@@ -9,6 +10,7 @@ import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.NotFoundException;
 import com.bbidoleMarket.bbidoleMarket.common.exception.UnauthorizedException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
+import com.bbidoleMarket.bbidoleMarket.common.reponse.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -46,6 +48,15 @@ public class LoginController {
     public ResponseEntity<ApiResponse<LoginResDto>> login(@Valid @RequestBody LoginReqDto loginReqDto) {
         try {
             User user = userService.login(loginReqDto);
+
+            if(!user.getIsActive()) {
+                LoginResDto result = new LoginResDto(
+                        null,
+                        null,
+                        Role.BAN
+                );
+                return ApiResponse.success(SUCCESS_LOGIN_BUT_BAN, result);
+            }
 
             String accessToken = jwtUtil.generateAccessToken(user.getId().toString(), user.getRole().getKey());
             String refreshToken = jwtUtil.generateRefreshToken(user.getId().toString());
