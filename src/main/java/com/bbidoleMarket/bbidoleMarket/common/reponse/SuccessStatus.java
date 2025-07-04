@@ -49,6 +49,7 @@ public enum SuccessStatus {
      * 201
      */
     CREATE_RECRUIT_ARTICLE_SUCCESS(HttpStatus.CREATED, "게시글 등록 성공"),
+    CREATE_REPORT_SUCCESS(HttpStatus.CREATED, "신고 등록 성공"),
 
     ;
 
