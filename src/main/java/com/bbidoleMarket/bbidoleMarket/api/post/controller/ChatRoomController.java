@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "채팅방", description = "채팅방에 관련된 API")
 @RestController
 @RequestMapping("/api/chat-room")
-@CrossOrigin("http://localhost:5173")
 @RequiredArgsConstructor
 @Slf4j
 public class ChatRoomController {
