@@ -29,7 +29,7 @@ public class SalesListService {
     public PageResDto<SalesListResDto> getLatestSales(Long userId, Integer page, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize);
         //판매 중인 글만 페이징 조회
-        Page<Post> onSaleLatest = buySellRepository.findByUserIdOrderByCreatedAtDesc(userId,pageRequest);
+        Page<Post> onSaleLatest = buySellRepository.findByUserIdAndIsDeletedFalseOrderByCreatedAtDesc(userId,pageRequest);
         //DTO로 변환
         Page<SalesListResDto> salesListResDto = onSaleLatest.map(post-> convertEntityToDto(post));
         return new PageResDto<>(salesListResDto);
@@ -51,7 +51,7 @@ public class SalesListService {
     public PageResDto<SalesListResDto> getOnSalesList(Long userId, Integer page, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize);
         //판매 중인 글만 페이징 조회
-        Page<Post> onSale = buySellRepository.findByUserIdAndIsSoldOrderByCreatedAtDesc(userId,false,pageRequest);
+        Page<Post> onSale = buySellRepository.findByUserIdAndIsSoldAndIsDeletedFalseOrderByCreatedAtDesc(userId,false,pageRequest);
         //DTO로 변환
         Page<SalesListResDto> salesListResDto = onSale.map(post -> convertEntityToDto(post));
         return new PageResDto<>(salesListResDto);
@@ -71,7 +71,7 @@ public class SalesListService {
     public PageResDto<SalesListResDto> getCompletedSalesList(Long userId, Integer page, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize);
         //판매 중인 글만 페이징 조회
-        Page<Post> postList = buySellRepository.findByUserIdAndIsSoldOrderByCreatedAtDesc(userId,true,pageRequest);
+        Page<Post> postList = buySellRepository.findByUserIdAndIsSoldAndIsDeletedFalseOrderByCreatedAtDesc(userId,true,pageRequest);
         //DTO로 변환
         Page<SalesListResDto> salesListResDto = postList.map(post -> convertEntityToDto(post));
         return new PageResDto<>(salesListResDto);

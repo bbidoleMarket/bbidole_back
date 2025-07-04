@@ -1,6 +1,7 @@
 package com.bbidoleMarket.bbidoleMarket.api.post.service;
 
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
+import com.bbidoleMarket.bbidoleMarket.api.entity.User;
 import com.bbidoleMarket.bbidoleMarket.api.image.enums.ImageFolder;
 import com.bbidoleMarket.bbidoleMarket.api.image.service.UploadImageService;
 import com.bbidoleMarket.bbidoleMarket.api.post.dto.PageResDto;
@@ -34,9 +35,8 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostDetailResDto findById(Long postId, String jwtId) {
-        Post post = postRepository.findById(postId)
-            .orElseThrow(
-                () -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
+        Post post = postRepository.findByIdAndIsDeletedFalse(postId)
+                .orElseThrow(() -> new NotFoundException(ErrorStatus.POST_NOT_FOUND_EXCEPTION.getMessage()));
 
         try {
             Long userId = Long.parseLong(jwtId);
@@ -78,7 +78,8 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostSimpleDto> findByUserId(Long userId) {
-        List<Post> posts = postRepository.findByUserId(userId);
+        // isDeleted = false 조건 추가
+        List<Post> posts = postRepository.findByUserIdAndIsDeletedFalse(userId, Pageable.unpaged()).getContent();
         return posts.stream().map(PostSimpleDto::fromPost).toList();
     }
 
@@ -87,12 +88,27 @@ public class PostService {
     public PageResDto<PostSimpleDto> findByUserId(Long userId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Post> postPage = postRepository.findByUserId(userId, pageable);
+        // isDeleted = false 조건 추가
+        Page<Post> postPage = postRepository.findByUserIdAndIsDeletedFalse(userId, pageable);
         Page<PostSimpleDto> postSimpleDto = postPage.map(PostSimpleDto::fromPost);
         return new PageResDto<>(postSimpleDto);
     }
 
     private boolean isWriter(Long writerId, Long userId) {
         return writerId.equals(userId);
+    }
+
+    @Transactional
+    public void softDeletePost(Long postId, String id) {
+        Long userId = Long.parseLong(id);
+        Post post = postRepository.findByIdAndIsDeletedFalse(postId)
+                .orElseThrow(() -> new NotFoundException("게시글을 찾을 수 없습니다."));
+
+        if (!post.getUser().getId().equals(userId)) {
+            throw new UnauthorizedException("게시글 삭제 권한이 없습니다.");
+        }
+
+        post.markAsDeleted();
+
     }
 }

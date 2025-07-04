@@ -44,6 +44,7 @@ public enum SuccessStatus {
     DELETE_PRODUCT_SUCCESS(HttpStatus.OK, "제품 삭제 성공"),
     FIND_RECENT_USER_SUCCESS(HttpStatus.OK, "최근 가입 회원 조회 성공"),
     FIND_RECENT_PRODUCT_SUCCESS(HttpStatus.OK, "최근 등록 상품 조회 성공"),
+    DELETE_POST_SUCCESS(HttpStatus.OK, "게시글 삭제 성공"),
     /**
      * 201
      */

@@ -46,23 +46,23 @@ public class PostListService {
      */
     private Page<PostListDto> getPostsWithoutKeyword(Boolean onlySelling, String sort, Pageable pageable) {
         if (Boolean.TRUE.equals(onlySelling)) {
-            // 판매중인 상품만 조회
+            // 메서드 이름 수정 필요
             return switch (sort) {
-                case "priceAsc" -> postListRepository.findByIsSoldOrderByPriceAsc(false, pageable)
+                case "priceAsc" -> postListRepository.findByIsSoldAndIsDeletedFalseOrderByPriceAsc(false, pageable)
                         .map(this::convertToDto);
-                case "priceDesc" -> postListRepository.findByIsSoldOrderByPriceDesc(false, pageable)
+                case "priceDesc" -> postListRepository.findByIsSoldAndIsDeletedFalseOrderByPriceDesc(false, pageable)
                         .map(this::convertToDto);
-                default -> postListRepository.findByIsSoldOrderByCreatedAtDesc(false, pageable)
+                default -> postListRepository.findByIsSoldAndIsDeletedFalseOrderByCreatedAtDesc(false, pageable)
                         .map(this::convertToDto);
             };
         } else {
-            // 모든 상품 조회
+            // 메서드 이름 수정 필요
             return switch (sort) {
-                case "priceAsc" -> postListRepository.findAllByOrderByPriceAsc(pageable)
+                case "priceAsc" -> postListRepository.findByIsDeletedFalseOrderByPriceAsc(pageable)
                         .map(this::convertToDto);
-                case "priceDesc" -> postListRepository.findAllByOrderByPriceDesc(pageable)
+                case "priceDesc" -> postListRepository.findByIsDeletedFalseOrderByPriceDesc(pageable)
                         .map(this::convertToDto);
-                default -> postListRepository.findAllByOrderByCreatedAtDesc(pageable)
+                default -> postListRepository.findByIsDeletedFalseOrderByCreatedAtDesc(pageable)
                         .map(this::convertToDto);
             };
         }

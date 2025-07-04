@@ -14,15 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "게시물", description = "게시물에 관련된 API")
@@ -82,4 +74,12 @@ public class PostController {
                 postService.findByUserId(userId, page, size));
     }
 
+    @PostMapping("/{postId}")
+    @Operation(summary = "게시물 삭제")
+    public ResponseEntity<ApiResponse<Void>> deletePost(@PathVariable Long postId ,@AuthenticationPrincipal String id) {
+        
+        postService.softDeletePost(postId, id);
+        
+        return ApiResponse.success_only(SuccessStatus.DELETE_POST_SUCCESS);
+    }
 }

@@ -2,15 +2,21 @@ package com.bbidoleMarket.bbidoleMarket.api.post.dto;
 
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
 import com.bbidoleMarket.bbidoleMarket.api.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PostDetailResDto {
 
     private long postId;
@@ -19,6 +25,8 @@ public class PostDetailResDto {
     private String description;
     private String imageUrl;
     private boolean isSold;
+    private boolean isDeleted; // 이 필드 추가
+    private LocalDateTime createdAt;
 
     private boolean isWriter;
 
@@ -36,6 +44,8 @@ public class PostDetailResDto {
         postDetailResDto.setDescription(post.getDescription());
         postDetailResDto.setImageUrl(post.getImageUrl());
         postDetailResDto.setSold(post.getIsSold());
+        postDetailResDto.setDeleted(post.getIsDeleted()); // 이 필드 추가
+        postDetailResDto.setCreatedAt(post.getCreatedAt());
 
         postDetailResDto.isWriter = isWriter;
 
