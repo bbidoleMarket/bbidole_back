@@ -23,11 +23,13 @@ public class ChatRoomReport extends Report {
 
     public static ChatRoomReport createChatRoomReport(
         User reporter,
+        User reportedUser,
         String content,
         ChatRoom chatRoom
     ) {
         ChatRoomReport chatRoomReport = new ChatRoomReport();
         chatRoomReport.setReporter(reporter);
+        chatRoomReport.setReportedUser(reportedUser);
         chatRoomReport.setContent(content);
         chatRoomReport.setStatus(ReportStatus.PENDING);
         chatRoomReport.chatRoom = chatRoom;

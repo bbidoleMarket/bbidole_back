@@ -38,9 +38,14 @@ public abstract class Report {
     @Column(name = "report_id")
     private Long id;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reporter_id", referencedColumnName = "user_id")
     private User reporter;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reported_user_id", referencedColumnName = "user_id")
+    private User reportedUser;
 
     @Lob
     @Column(name = "report_content")
@@ -59,6 +64,8 @@ public abstract class Report {
     protected void setReporter(User reporter) {
         this.reporter = reporter;
     }
+
+    protected void setReportedUser(User reportedUser){this.reportedUser=reportedUser;}
 
     protected void setContent(String content) {
         this.content = content;
