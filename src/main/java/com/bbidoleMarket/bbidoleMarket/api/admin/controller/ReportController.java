@@ -2,6 +2,7 @@ package com.bbidoleMarket.bbidoleMarket.api.admin.controller;
 
 import com.bbidoleMarket.bbidoleMarket.api.admin.dto.AdminPostReportResDto;
 import com.bbidoleMarket.bbidoleMarket.api.admin.dto.AdminUserReportResDto;
+import com.bbidoleMarket.bbidoleMarket.api.admin.repository.ReportUserRepository;
 import com.bbidoleMarket.bbidoleMarket.api.admin.service.ReportService;
 import com.bbidoleMarket.bbidoleMarket.api.entity.report.ReportStatus;
 import com.bbidoleMarket.bbidoleMarket.common.config.RequireAdmin;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequestMapping("/api/admin/report")
 public class ReportController {
     private final ReportService reportService;
+
     //회원 신고 리스트 조회
     @RequireAdmin
     @GetMapping("/userlist")

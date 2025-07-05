@@ -24,8 +24,8 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class ReportService {
-    ReportUserRepository reportUserRepository;
-    ReportPostRepository reportPostRepository;
+    private final ReportUserRepository reportUserRepository;
+    private final ReportPostRepository reportPostRepository;
 
     //회원 신고 리스트 조회
     public List<AdminUserReportResDto> getReportUserList(){
@@ -33,12 +33,14 @@ public class ReportService {
         List<AdminUserReportResDto> dtos = new ArrayList<>();
         for(ChatRoomReport report : reports){
             AdminUserReportResDto dto = AdminUserReportResDto.builder()
+                    .reportId(report.getId())
                     .reportedUserName(report.getReportedUser().getName())
                     .reporterName(report.getReporter().getName())
                     .content(report.getContent())
                     .reportStatus(report.getStatus())
                     .createdAt(report.getCreatedAt())
                     .updateAt(report.getUpdatedAt())
+                    .chatRoomId(report.getChatRoom().getId())
                     .build();
             dtos.add(dto);
         }return dtos;

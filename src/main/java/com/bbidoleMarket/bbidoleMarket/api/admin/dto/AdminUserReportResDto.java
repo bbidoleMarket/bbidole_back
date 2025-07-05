@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor     @Builder
 public class AdminUserReportResDto {
+    private Long reportId;
     private String reporterName;  //신고자
     private String reportedUserName; //신고당한사람
     private String content; //신고 내용

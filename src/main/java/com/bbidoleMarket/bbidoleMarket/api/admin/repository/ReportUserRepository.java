@@ -11,7 +11,6 @@ import java.util.Optional;
 @Repository
 public interface ReportUserRepository extends JpaRepository<ChatRoomReport,Long> {
 
-    @Query("SELECT r FROM ChatRoomReport r JOIN FETCH r.reporter JOIN fetch r.reportedUser JOIN FETCH  r.chatRoom")
+    @Query("SELECT r FROM ChatRoomReport r JOIN FETCH r.reporter JOIN FETCH r.reportedUser JOIN FETCH  r.chatRoom")
     List<ChatRoomReport> findAllWithUserAndChatRoom();
-
 }
