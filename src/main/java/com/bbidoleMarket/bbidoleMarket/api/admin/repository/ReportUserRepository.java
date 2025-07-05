@@ -1,6 +1,5 @@
 package com.bbidoleMarket.bbidoleMarket.api.admin.repository;
 
-import com.bbidoleMarket.bbidoleMarket.api.admin.repository.projection.ReportContentChatRoomProjection;
 import com.bbidoleMarket.bbidoleMarket.api.entity.report.ChatRoomReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
