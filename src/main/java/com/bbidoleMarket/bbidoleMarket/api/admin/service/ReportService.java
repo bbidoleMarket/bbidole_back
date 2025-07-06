@@ -29,9 +29,11 @@ public class ReportService {
 
     //회원 신고 리스트 조회
     public List<AdminUserReportResDto> getReportUserList(){
+        List<ChatRoomReport> raw = reportUserRepository.findAll();
         List<ChatRoomReport> reports = reportUserRepository.findAllWithUserAndChatRoom();
         List<AdminUserReportResDto> dtos = new ArrayList<>();
         for(ChatRoomReport report : reports){
+            log.error(String.valueOf(report.getId()));
             AdminUserReportResDto dto = AdminUserReportResDto.builder()
                     .reportId(report.getId())
                     .reportedUserName(report.getReportedUser().getName())
@@ -43,6 +45,7 @@ public class ReportService {
                     .chatRoomId(report.getChatRoom().getId())
                     .build();
             dtos.add(dto);
+
         }return dtos;
     }
     //회원 신고 상세 페이지
@@ -81,6 +84,7 @@ public class ReportService {
                     .reportStatus(report.getStatus())
                     .createdAt(report.getCreatedAt())
                     .updateAt(report.getUpdatedAt())
+                    .postId(report.getPost().getId())
                     .build();
             dtos.add(dto);
         }return dtos;

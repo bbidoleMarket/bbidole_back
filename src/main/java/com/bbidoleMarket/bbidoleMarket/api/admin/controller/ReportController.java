@@ -25,7 +25,7 @@ public class ReportController {
     @GetMapping("/userlist")
     public ResponseEntity<ApiResponse<List<AdminUserReportResDto>>> userList(){
         List<AdminUserReportResDto> dto =reportService.getReportUserList();
-        return ApiResponse.success(SuccessStatus.SEND_HEALTH_SUCCESS,dto);
+        return ApiResponse.success(SuccessStatus.SUCCESS_USER_REPORT_FOUND,dto);
     }
 
     //회원 신고 상세 페이지
@@ -39,8 +39,8 @@ public class ReportController {
     //회원 신고 승인,거절
     @RequireAdmin
     @PutMapping("/user-status/{reportId}/status")
-    public ResponseEntity<ApiResponse<Void>> modifyReportUSerStatus(@PathVariable Long reportId, @RequestParam ReportStatus newStatus){
-        reportService.modifyReportUserStatus(reportId,newStatus);
+    public ResponseEntity<ApiResponse<Void>> modifyReportUSerStatus(@PathVariable Long reportId, @RequestParam ReportStatus status){
+        reportService.modifyReportUserStatus(reportId,status);
         return ApiResponse.success_only(SuccessStatus.SEND_HEALTH_SUCCESS);
     }
     //게시물 신고 리스트
@@ -60,8 +60,8 @@ public class ReportController {
     //게시물 신고 승인,거절
     @RequireAdmin
     @PutMapping("/post-status/{reportId}/status")
-    public ResponseEntity<ApiResponse<Void>> modifyReportPostStatus(@PathVariable Long reportId, @RequestParam ReportStatus newStatus){
-        reportService.modifyReportPostStatus(reportId,newStatus);
+    public ResponseEntity<ApiResponse<Void>> modifyReportPostStatus(@PathVariable Long reportId, @RequestParam ReportStatus status){
+        reportService.modifyReportPostStatus(reportId,status);
         return ApiResponse.success_only(SuccessStatus.SEND_HEALTH_SUCCESS);
     }
 }
