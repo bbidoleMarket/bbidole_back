@@ -43,8 +43,10 @@ public class ReportService {
                 Long chatRoomId = dto.getId();
                 ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(
                     () -> new NotFoundException("Chat room not found with ID: " + chatRoomId));
+                User reported = userRepository.findById(chatRoom.getSeller().getId()).get();
                 report = ChatRoomReport.createChatRoomReport(
                     reporter,
+                    reported,
                     dto.getContent(),
                     chatRoom
                 );
@@ -56,6 +58,7 @@ public class ReportService {
                 );
                 report = PostReport.createPostReport(
                     reporter,
+                    post,
                     dto.getContent(),
                     post
                 );

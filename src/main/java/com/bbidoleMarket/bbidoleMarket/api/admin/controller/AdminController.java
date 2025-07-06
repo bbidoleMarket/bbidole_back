@@ -4,7 +4,11 @@ import com.bbidoleMarket.bbidoleMarket.api.admin.dto.AdminProductReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.admin.dto.AdminProductResDto;
 import com.bbidoleMarket.bbidoleMarket.api.admin.dto.AdminUserReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.admin.dto.AdminUserResDto;
+import com.bbidoleMarket.bbidoleMarket.api.admin.repository.ReportPostRepository;
+import com.bbidoleMarket.bbidoleMarket.api.admin.repository.ReportUserRepository;
 import com.bbidoleMarket.bbidoleMarket.api.entity.Role;
+import com.bbidoleMarket.bbidoleMarket.api.entity.report.ReportStatus;
+import com.bbidoleMarket.bbidoleMarket.api.report.repository.ReportRepository;
 import com.bbidoleMarket.bbidoleMarket.common.config.RequireAdmin;
 import com.bbidoleMarket.bbidoleMarket.api.chat.repository.ChatRepository;
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
@@ -31,6 +35,8 @@ public class AdminController {
     private final PostRepository postRepository;
     private final ChatRepository chatRepository;
     private final UserService userService;
+    private final ReportUserRepository reportUserRepository;
+    private final ReportPostRepository reportPostRepository;
 
 
     @RequireAdmin
@@ -123,5 +129,29 @@ public class AdminController {
     public ResponseEntity<ApiResponse<List<Post>>> recentProduct() {
         List<Post> posts = postRepository.findTop5WithUser(PageRequest.of(0, 5));
         return ApiResponse.success(SuccessStatus.FIND_RECENT_PRODUCT_SUCCESS, posts);
+    }
+
+    @RequireAdmin
+    @GetMapping("/UserPending")
+    public ResponseEntity<ApiResponse<Long>> UserPending() {
+        Long total = null;
+        try {
+            total = reportUserRepository.countByStatus(ReportStatus.PENDING);
+            return ApiResponse.success(SuccessStatus.FIND_PENDING_USER_SUCCESS, total);
+        } catch (Exception e) {
+            throw new BadRequestException("미처리 사용자 신고 조회 오류 : " + e.getMessage());
+        }
+    }
+
+    @RequireAdmin
+    @GetMapping("/PostPending")
+    public ResponseEntity<ApiResponse<Long>> PostPending() {
+        Long total = null;
+        try {
+            total = reportPostRepository.countByStatus(ReportStatus.PENDING);
+            return ApiResponse.success(SuccessStatus.FIND_PENDING_POST_SUCCESS, total);
+        } catch (Exception e) {
+            throw new BadRequestException("미처리 게시글 신고 조회 오류 : " + e.getMessage());
+        }
     }
 }

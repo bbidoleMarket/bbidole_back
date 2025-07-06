@@ -7,10 +7,8 @@ import com.bbidoleMarket.bbidoleMarket.api.admin.repository.ReportPostRepository
 import com.bbidoleMarket.bbidoleMarket.api.admin.repository.ReportUserRepository;
 import com.bbidoleMarket.bbidoleMarket.api.entity.report.ChatRoomReport;
 import com.bbidoleMarket.bbidoleMarket.api.entity.report.PostReport;
-import com.bbidoleMarket.bbidoleMarket.api.entity.report.Report;
 import com.bbidoleMarket.bbidoleMarket.api.entity.report.ReportStatus;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,12 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ReportService {
+public class AdminReportService {
     private final ReportUserRepository reportUserRepository;
     private final ReportPostRepository reportPostRepository;
 

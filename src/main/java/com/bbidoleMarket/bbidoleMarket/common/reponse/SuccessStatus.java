@@ -47,6 +47,8 @@ public enum SuccessStatus {
     DELETE_POST_SUCCESS(HttpStatus.OK, "게시글 삭제 성공"),
     SUCCESS_LOGIN_BUT_BAN(HttpStatus.LOCKED, "정지 된 사용자 입니다."),
     SUCCESS_USER_REPORT_FOUND(HttpStatus.OK, "신고된 사용자 조회 성공"),
+    FIND_PENDING_USER_SUCCESS(HttpStatus.OK, "미처리 사용자 신고 조회 성공"),
+    FIND_PENDING_POST_SUCCESS(HttpStatus.OK, "미처리 게시글 신고 조회 성공"),
 
     /**
      * 201
