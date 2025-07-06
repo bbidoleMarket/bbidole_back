@@ -31,8 +31,8 @@ public class ReportController {
     //회원 신고 상세 페이지
     @RequireAdmin
     @GetMapping("/userlist-detail/{reportId}")
-    public ResponseEntity<ApiResponse<List<AdminUserReportResDto>>> userReportDetail(@PathVariable Long reportId){
-        List<AdminUserReportResDto> dto =reportService.getReportUserDetail(reportId);
+    public ResponseEntity<ApiResponse<AdminUserReportResDto>> userReportDetail(@PathVariable Long reportId){
+        AdminUserReportResDto dto =reportService.getReportUserDetail(reportId);
         return ApiResponse.success(SuccessStatus.SEND_HEALTH_SUCCESS,dto);
     }
 
@@ -53,8 +53,8 @@ public class ReportController {
     //게시물 신고 상세페이지
     @RequireAdmin
     @GetMapping("/postlist-detail/{reportId}")
-    public ResponseEntity<ApiResponse<List<AdminPostReportResDto>>> postReportDetail(@PathVariable Long reportId){
-        List<AdminPostReportResDto> dto =reportService.getReportPostDetail(reportId);
+    public ResponseEntity<ApiResponse<AdminPostReportResDto>> postReportDetail(@PathVariable Long reportId){
+        AdminPostReportResDto dto = reportService.getReportPostDetail(reportId);
         return ApiResponse.success(SuccessStatus.SEND_HEALTH_SUCCESS,dto);
     }
     //게시물 신고 승인,거절

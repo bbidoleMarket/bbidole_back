@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class AdminPostReportResDto {
+    private Long reportId;
     private String reporterName;  //신고자
     private String reportedPostName; //신고당한게시글
     private String content; //신고 내용

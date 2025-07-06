@@ -49,16 +49,23 @@ public class ReportService {
         }return dtos;
     }
     //회원 신고 상세 페이지
-    public List<AdminUserReportResDto> getReportUserDetail(Long reportId){
+    @Transactional
+    public AdminUserReportResDto getReportUserDetail(Long reportId){
         ChatRoomReport report = reportUserRepository.findById(reportId)
                 .orElseThrow(() -> new BadRequestException("Report not found: " + reportId));
-        List<AdminUserReportResDto> dtos = new ArrayList<>();
         AdminUserReportResDto dto = AdminUserReportResDto.builder()
+                .reportId(report.getId())
+                .reportedUserName(report.getReportedUser().getName())
+                .reporterName(report.getReporter().getName())
                 .content(report.getContent())
+                .reportStatus(report.getStatus())
+                .createdAt(report.getCreatedAt())
+                .updateAt(report.getUpdatedAt())
                 .chatRoomId(report.getChatRoom().getId())
                 .build();
-        dtos.add(dto);
-        return dtos;
+
+        System.out.println("회원 신고 상세 페이지 : " + dto);
+        return dto;
     }
 
     //회원 신고 승인,거절
@@ -73,6 +80,7 @@ public class ReportService {
         }
     }
     //게시물 신고 리스트
+    @Transactional
     public List<AdminPostReportResDto> getReportPostList(){
         List<PostReport> reports = reportPostRepository.findAllWithUserAndPost();
         List<AdminPostReportResDto> dtos = new ArrayList<>();
@@ -85,21 +93,30 @@ public class ReportService {
                     .createdAt(report.getCreatedAt())
                     .updateAt(report.getUpdatedAt())
                     .postId(report.getPost().getId())
+                    .reportId(report.getId())
+                    .reportedPostName(report.getReportedUser().getName())
                     .build();
             dtos.add(dto);
         }return dtos;
     }
     //게시물 신고 상세페이지
-    public List<AdminPostReportResDto> getReportPostDetail(Long reportId){
+    @Transactional
+    public AdminPostReportResDto getReportPostDetail(Long reportId){
         PostReport report = reportPostRepository.findById(reportId)
                 .orElseThrow(() -> new BadRequestException("Report not found: " + reportId));
-        List<AdminPostReportResDto> dtos = new ArrayList<>();
         AdminPostReportResDto dto = AdminPostReportResDto.builder()
+                .postTitle(report.getPost().getTitle())
+                .reporterName(report.getReporter().getName())
+                .reportedPostName(report.getReportedUser().getName())
                 .content(report.getContent())
+                .reportStatus(report.getStatus())
+                .createdAt(report.getCreatedAt())
+                .updateAt(report.getUpdatedAt())
                 .postId(report.getPost().getId())
+                .reportId(report.getId())
                 .build();
-        dtos.add(dto);
-        return dtos;
+
+        return dto;
     }
     //게시물 신고 승인,거절
     @Transactional

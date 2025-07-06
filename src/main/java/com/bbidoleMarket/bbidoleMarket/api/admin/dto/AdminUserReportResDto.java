@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor     @Builder
+@AllArgsConstructor
+@Builder
 public class AdminUserReportResDto {
     private Long reportId;
     private String reporterName;  //신고자
