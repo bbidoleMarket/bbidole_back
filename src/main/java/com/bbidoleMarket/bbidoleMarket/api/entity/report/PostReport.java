@@ -10,20 +10,27 @@ import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @DiscriminatorValue("Post")
+@ToString
 public class PostReport extends Report {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public static PostReport createPostReport(User reporter, Post reportedPost, String content, Post post) {
+    public static PostReport createPostReport(
+        User reporter,
+        String content,
+        Post post
+    ) {
         PostReport postReport = new PostReport();
         postReport.setReporter(reporter);
+        postReport.setReportedUser(post.getUser());
         postReport.setContent(content);
         postReport.setStatus(ReportStatus.PENDING);
         postReport.post = post;

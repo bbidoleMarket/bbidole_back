@@ -16,6 +16,7 @@ import lombok.ToString;
 @DiscriminatorValue("ChatRoom")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString
 public class ChatRoomReport extends Report {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,13 +25,13 @@ public class ChatRoomReport extends Report {
 
     public static ChatRoomReport createChatRoomReport(
         User reporter,
-        User reportedUser,
+        User reportee,
         String content,
         ChatRoom chatRoom
     ) {
         ChatRoomReport chatRoomReport = new ChatRoomReport();
         chatRoomReport.setReporter(reporter);
-        chatRoomReport.setReportedUser(reportedUser);
+        chatRoomReport.setReportedUser(reportee);
         chatRoomReport.setContent(content);
         chatRoomReport.setStatus(ReportStatus.PENDING);
         chatRoomReport.chatRoom = chatRoom;
