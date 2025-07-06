@@ -21,7 +21,7 @@ public class PostReport extends Report {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public static PostReport createPostReport(User reporter, String content, Post post) {
+    public static PostReport createPostReport(User reporter, Post reportedPost, String content, Post post) {
         PostReport postReport = new PostReport();
         postReport.setReporter(reporter);
         postReport.setContent(content);
