@@ -31,7 +31,6 @@ public class ReportService {
     private final ChatRoomRepository chatRoomRepository;
 
     public Boolean saveReport(ReportReqDto dto, Long reporterId) {
-        log.error(dto.getType());
         ReportType type = ReportType.fromString(dto.getType());
         User reporter = userRepository.findById(reporterId)
             .orElseThrow(
@@ -43,13 +42,26 @@ public class ReportService {
                 Long chatRoomId = dto.getId();
                 ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(
                     () -> new NotFoundException("Chat room not found with ID: " + chatRoomId));
-                User reported = userRepository.findById(chatRoom.getSeller().getId()).get();
-                report = ChatRoomReport.createChatRoomReport(
-                    reporter,
-                    reported,
-                    dto.getContent(),
-                    chatRoom
-                );
+
+                User reportee = null;
+                User buyer = chatRoom.getBuyer();
+                User seller = chatRoom.getSeller();
+
+                if (buyer.getId().equals(reporter.getId()) && seller.getId()
+                    .equals(reporter.getId())) {
+                    throw new BadRequestException("Reporter cannot be both buyer and seller.");
+                } else if (
+                    buyer.getId().equals(reporter.getId()) || seller.getId()
+                        .equals(reporter.getId())) {
+                    reportee = buyer.getId().equals(reporter.getId()) ? seller : buyer;
+                    report = ChatRoomReport.createChatRoomReport(reporter, reportee,
+                        dto.getContent(), chatRoom);
+
+                } else {
+                    throw new BadRequestException(
+                        "Reporter must be either buyer or seller of the chat room.");
+                }
+
             }
             case POST -> {
                 Long postId = dto.getId();
@@ -58,7 +70,6 @@ public class ReportService {
                 );
                 report = PostReport.createPostReport(
                     reporter,
-                    post,
                     dto.getContent(),
                     post
                 );
