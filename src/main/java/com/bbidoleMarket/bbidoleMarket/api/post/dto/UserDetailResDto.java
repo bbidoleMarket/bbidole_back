@@ -15,5 +15,6 @@ public class UserDetailResDto {
     private String nickname;
     private String imageUrl;
     private Double totalRating;
+    private Boolean isActive;
 
 }
