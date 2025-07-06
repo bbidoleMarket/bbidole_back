@@ -6,31 +6,31 @@ import com.bbidoleMarket.bbidoleMarket.api.admin.dto.AdminUserReqDto;
 import com.bbidoleMarket.bbidoleMarket.api.admin.dto.AdminUserResDto;
 import com.bbidoleMarket.bbidoleMarket.api.admin.repository.ReportPostRepository;
 import com.bbidoleMarket.bbidoleMarket.api.admin.repository.ReportUserRepository;
-import com.bbidoleMarket.bbidoleMarket.api.entity.Role;
-import com.bbidoleMarket.bbidoleMarket.api.entity.report.ReportStatus;
-import com.bbidoleMarket.bbidoleMarket.api.report.repository.ReportRepository;
-import com.bbidoleMarket.bbidoleMarket.common.config.RequireAdmin;
 import com.bbidoleMarket.bbidoleMarket.api.chat.repository.ChatRepository;
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
+import com.bbidoleMarket.bbidoleMarket.api.entity.report.ReportStatus;
 import com.bbidoleMarket.bbidoleMarket.api.login.repository.UserRepository;
 import com.bbidoleMarket.bbidoleMarket.api.login.service.UserService;
-import com.bbidoleMarket.bbidoleMarket.api.post.dto.UserDetailResDto;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.PostRepository;
+import com.bbidoleMarket.bbidoleMarket.common.config.RequireAdmin;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.SuccessStatus;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
 public class AdminController {
+
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final ChatRepository chatRepository;
@@ -79,8 +79,8 @@ public class AdminController {
     @GetMapping("/findAllUser")
     public ResponseEntity<ApiResponse<List<AdminUserResDto>>> findAllUser() {
         List<AdminUserResDto> dtos = userRepository.findAll().stream()
-                .map(AdminUserResDto::new) // User → AdminUserResDto 변환
-                .toList();
+            .map(AdminUserResDto::new) // User → AdminUserResDto 변환
+            .toList();
         return ApiResponse.success(SuccessStatus.FIND_ALL_USER_SUCCESS, dtos);
     }
 
@@ -88,14 +88,15 @@ public class AdminController {
     @GetMapping("/findAllProduct")
     public ResponseEntity<ApiResponse<List<AdminProductResDto>>> findAllProduct() {
         List<AdminProductResDto> dtos = postRepository.findAllWithUser().stream()
-                .map(AdminProductResDto::new) // Post → AdminProductResDto 변환
-                .toList();
+            .map(AdminProductResDto::new) // Post → AdminProductResDto 변환
+            .toList();
         return ApiResponse.success(SuccessStatus.FIND_ALL_PRODUCT_SUCCESS, dtos);
     }
 
     @RequireAdmin
     @PostMapping("/controlIsActive")
-    public ResponseEntity<ApiResponse<Void>> controlIsActive(@RequestBody AdminUserReqDto adminUserReqDto) {
+    public ResponseEntity<ApiResponse<Void>> controlIsActive(
+        @RequestBody AdminUserReqDto adminUserReqDto) {
         try {
             userService.updateUserActive(adminUserReqDto.getId(), adminUserReqDto.getIsActive());
             return ApiResponse.success_only(SuccessStatus.UPDATE_POST_SUCCESS);
@@ -106,7 +107,8 @@ public class AdminController {
 
     @RequireAdmin
     @PostMapping("/deleteProduct")
-    public ResponseEntity<ApiResponse<Void>> deleteProduct(@RequestBody AdminProductReqDto adminProductReqDto) {
+    public ResponseEntity<ApiResponse<Void>> deleteProduct(
+        @RequestBody AdminProductReqDto adminProductReqDto) {
         try {
             postRepository.deleteById(adminProductReqDto.getId());
             return ApiResponse.success_only(SuccessStatus.DELETE_PRODUCT_SUCCESS);
@@ -119,8 +121,8 @@ public class AdminController {
     @GetMapping("/recentUser")
     public ResponseEntity<ApiResponse<List<AdminUserResDto>>> recentUser() {
         List<AdminUserResDto> dtos = userRepository.findTop5ByOrderByCreatedAtDesc().stream()
-                .map(AdminUserResDto::new)
-                .toList();
+            .map(AdminUserResDto::new)
+            .toList();
         return ApiResponse.success(SuccessStatus.FIND_RECENT_USER_SUCCESS, dtos);
     }
 
