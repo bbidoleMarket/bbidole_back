@@ -42,8 +42,7 @@ public class ChatRoomReport extends Report {
     public void approveReport() {
         if (this.getStatus() == ReportStatus.PENDING) {
             this.setStatus(ReportStatus.APPROVED);
-            // TODO 채팅방 판매자 차단 로직 추가
-            chatRoom.getSeller().setIsActive(false); // 채팅방 판매자 차단
+            this.getReportedUser().deactivate();
         } else {
             throw new IllegalStateException("Report must be in PENDING status to approve.");
         }
@@ -54,8 +53,7 @@ public class ChatRoomReport extends Report {
         if (this.getStatus() == ReportStatus.APPROVED
             || this.getStatus() == ReportStatus.REJECTED) {
             this.setStatus(ReportStatus.PENDING);
-            // TODO 채팅방 판매자 차단 해제 로직 추가
-            chatRoom.getSeller().setIsActive(true); // 채팅방 판매자 차단 해제
+            getReportedUser().active();
         } else {
             throw new IllegalStateException(
                 "Report must be in APPROVED or REJECTED status to revert.");

@@ -131,4 +131,14 @@ public class User {
         // TODO Review 생성할 때 마다 수정
         this.totalRating = totalRating;
     }
+
+    public void active() {
+//        if (this.isActive) { throw new IllegalStateException("User is already active."); }
+        this.isActive = true;
+    }
+
+    public void deactivate() {
+//        if (!this.isActive) { throw new IllegalStateException("User is already inactive."); }
+        this.isActive = false;
+    }
 }
