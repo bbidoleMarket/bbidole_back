@@ -49,7 +49,7 @@ public class User {
 
     @NotBlank
     @Size(min = 2, max = 30)
-    @Column(name = "nickname", nullable = false, unique = true)
+    @Column(name = "nickname", nullable = false)
     private String nickname;
 
     @Column(name = "total_rating", nullable = false)
