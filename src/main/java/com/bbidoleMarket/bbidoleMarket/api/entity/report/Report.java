@@ -51,21 +51,23 @@ public abstract class Report {
     @Column(name = "report_content")
     private String content;
 
-    @Column(name = "report_status")
+    @Column(name = "report_status", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private ReportStatus status = ReportStatus.PENDING;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     protected void setReporter(User reporter) {
         this.reporter = reporter;
     }
 
-    protected void setReportedUser(User reportedUser){this.reportedUser=reportedUser;}
+    protected void setReportedUser(User reportedUser) {
+        this.reportedUser = reportedUser;
+    }
 
     protected void setContent(String content) {
         this.content = content;

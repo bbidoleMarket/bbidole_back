@@ -52,7 +52,7 @@ public class User {
     @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
 
-    @Column(name = "total_rating")
+    @Column(name = "total_rating", nullable = false)
     private Double totalRating = -1.0;
 
     @Column(name = "profile_image")
@@ -61,7 +61,7 @@ public class User {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "is_active")
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 
     @Enumerated(EnumType.STRING)
