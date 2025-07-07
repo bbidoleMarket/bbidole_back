@@ -120,9 +120,9 @@ public class ChatService {
         chatRoomResDto.setProductId(chatRoom.getPost().getId());
         chatRoomResDto.setProductName(chatRoom.getPost().getTitle());
         chatRoomResDto.setBuyerId(chatRoom.getBuyer().getId());
-        chatRoomResDto.setBuyerName(chatRoom.getBuyer().getName());
+        chatRoomResDto.setBuyerName(chatRoom.getBuyer().getNickname());
         chatRoomResDto.setSellerId(chatRoom.getSeller().getId());
-        chatRoomResDto.setSellerName(chatRoom.getSeller().getName());
+        chatRoomResDto.setSellerName(chatRoom.getSeller().getNickname());
         if (chatRoom.getBuyer().getId().equals(userId))
             chatRoomResDto.setOthersId(chatRoom.getSeller().getId());
         else
