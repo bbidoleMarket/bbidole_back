@@ -21,8 +21,11 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     public PageResDto<ReviewResDto> getReviewWithSeller(Long id, int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size, Sort.by(Direction.DESC, "createdAt"));
+//        Page<Review> reviewPage = reviewRepository.findByRevieweeId(id, pageable);
         Pageable pageable = PageRequest.of(page, size);
-        Page<Review> reviewPage = reviewRepository.findByRevieweeId(id, pageable);
+        Page<Review> reviewPage = reviewRepository.findByRevieweeIdOrderByCreatedAtDesc(id,
+            pageable);
         Page<ReviewResDto> reviewDtoPage = reviewPage.map(ReviewResDto::fromReview);
         return new PageResDto<>(reviewDtoPage);
     }

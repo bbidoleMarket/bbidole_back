@@ -1,24 +1,28 @@
 package com.bbidoleMarket.bbidoleMarket.api.post.repository;
 
 import com.bbidoleMarket.bbidoleMarket.api.entity.Post;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
+
     // 삭제되지 않은 게시글만 조회하는 메소드들 추가
     Optional<Post> findByIdAndIsDeletedFalse(Long id);
+
     Page<Post> findAllByIsDeletedFalse(Pageable pageable);
-    
+
     // 이미 존재하는 다른 조회 메소드에 isDeleted 조건 추가
     // 예: 사용자별 게시글 조회
     Page<Post> findByUserIdAndIsDeletedFalse(Long userId, Pageable pageable);
+
+    // 사용자별로 삭제되지 않은 게시글을 최신순으로 조회
+    Page<Post> findByUserIdAndIsDeletedFalseOrderByCreatedAtDesc(Long userId, Pageable pageable);
 
     @Override
     Optional<Post> findById(Long id);
