@@ -27,10 +27,10 @@ public class ChatRoom {
     @Column(name = "chat_id")
     private Long id;
 
-    @Column(name = "is_completed")
+    @Column(name = "is_completed", nullable = false)
     private Boolean isCompleted = false;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,7 +45,7 @@ public class ChatRoom {
     @JoinColumn(name = "seller_id", referencedColumnName = "user_id")
     private User seller;
 
-    @Column(name = "is_reviewed", columnDefinition = "BOOLEAN DEFAULT false")
+    @Column(name = "is_reviewed", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
     private Boolean isReviewed = false;
 
     @Builder

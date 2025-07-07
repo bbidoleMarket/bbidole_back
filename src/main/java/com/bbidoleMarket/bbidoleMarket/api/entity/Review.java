@@ -28,14 +28,14 @@ public class Review {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "rating")
+    @Column(name = "rating", nullable = false)
     private Integer rating;
 
     @Lob
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

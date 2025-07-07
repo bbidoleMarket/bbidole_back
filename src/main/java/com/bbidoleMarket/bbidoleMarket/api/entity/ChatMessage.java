@@ -27,10 +27,10 @@ public class ChatMessage {
     @Column(name = "message_id")
     private Long id;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "send_at")
+    @Column(name = "send_at", nullable = false)
     private LocalDateTime sendAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -29,26 +29,26 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "price")
-    private Integer price;
+    @Column(name = "price", nullable = false)
+    private Integer price = 0;
 
     @Column(name = "post_image_url")
     private String imageUrl;
 
     @Lob
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "is_sold")
+    @Column(name = "is_sold", nullable = false)
     private Boolean isSold = false;
 
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
