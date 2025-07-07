@@ -12,6 +12,7 @@ import com.bbidoleMarket.bbidoleMarket.api.entity.report.ReportStatus;
 import com.bbidoleMarket.bbidoleMarket.api.login.repository.UserRepository;
 import com.bbidoleMarket.bbidoleMarket.api.login.service.UserService;
 import com.bbidoleMarket.bbidoleMarket.api.post.repository.PostRepository;
+import com.bbidoleMarket.bbidoleMarket.api.post.service.PostService;
 import com.bbidoleMarket.bbidoleMarket.common.config.RequireAdmin;
 import com.bbidoleMarket.bbidoleMarket.common.exception.BadRequestException;
 import com.bbidoleMarket.bbidoleMarket.common.reponse.ApiResponse;
@@ -20,11 +21,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +35,7 @@ public class AdminController {
     private final UserService userService;
     private final ReportUserRepository reportUserRepository;
     private final ReportPostRepository reportPostRepository;
+    private final PostService postService;
 
 
     @RequireAdmin
@@ -155,5 +154,12 @@ public class AdminController {
         } catch (Exception e) {
             throw new BadRequestException("미처리 게시글 신고 조회 오류 : " + e.getMessage());
         }
+    }
+
+    @RequireAdmin
+    @PostMapping("/{postId}")
+    public ResponseEntity<ApiResponse<Void>> adminDeletePost(@PathVariable Long postId) {
+        postService.adminDeletePost(postId);
+        return ApiResponse.success_only(SuccessStatus.DELETE_POST_SUCCESS);
     }
 }

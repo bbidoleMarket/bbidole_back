@@ -115,4 +115,12 @@ public class PostService {
         post.markAsDeleted();
 
     }
+
+    @Transactional
+    public void adminDeletePost(Long postId) {
+        Post post = postRepository.findByIdAndIsDeletedFalse(postId)
+                .orElseThrow(() -> new NotFoundException("게시글을 찾을 수 없습니다."));
+
+        post.markAsDeleted();
+    }
 }
