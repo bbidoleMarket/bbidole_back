@@ -20,7 +20,6 @@ public enum ErrorStatus {
     IMAGE_MISSING_EXCEPTION(HttpStatus.BAD_REQUEST, "이미지 파일이 없습니다"),
     INVALID_SEARCH_PARAMETER(HttpStatus.BAD_REQUEST, "검색 파라미터가 올바르지 않습니다."),
     VALIDATION_REQUEST_PAGENATION_EXCEPTION(HttpStatus.BAD_REQUEST, "페이지 번호와 크기는 0보다 커야 합니다."),
-    POST_NOT_FOUND_EXCEPTION(HttpStatus.BAD_REQUEST, "해당 게시물이 없습니다"),
     SELLER_EQUAL_BUY(HttpStatus.BAD_REQUEST, "자신의 게시글에 채팅방을 만들수 없습니다"),
     YOU_ARE_NOT_SELLER(HttpStatus.BAD_REQUEST, "해당 게시글의 판매자가 아닙니다."),
 
@@ -42,6 +41,7 @@ public enum ErrorStatus {
     USER_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 사용자를 찾을 수 없습니다."),
     EMAIL_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 이메일을 찾을 수 없습니다."),
     CHAT_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 채팅방을 찾을 수 없습니다."),
+    POST_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 게시물을 찾을 수 없습니다"),
 
     /**
      * 500 SERVER_ERROR
